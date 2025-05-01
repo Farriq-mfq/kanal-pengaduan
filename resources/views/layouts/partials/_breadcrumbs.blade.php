@@ -1,5 +1,7 @@
 <div class="page-header">
-    <h4 class="page-title">Dashboard</h4>
+    <h4 class="page-title">
+        {{ $title }}
+    </h4>
     <ul class="breadcrumbs">
         <li class="nav-home">
             <a href="{{ route('dashboard') }}">

@@ -27,4 +27,26 @@
 @push('scripts')
     <!-- Kaiadmin JS -->
     <script src="{{ url('assets/js/kaiadmin.min.js') }}"></script>
+
+    <script>
+        $(document).on('click', '#delete-form', function(e) {
+            e.preventDefault();
+            const title = $(this).data('title');
+            const text = $(this).data('text');
+
+            swal({
+                title: title || "Yakin ?",
+                text: text || "Anda akan menghapus data ini ?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $('#delete-form').submit();
+                }
+            })
+
+            return false;
+        })
+    </script>
 @endpush

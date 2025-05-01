@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\UserDataTable;
+use App\Http\Requests\UserRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class UserManagementController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(UserDataTable $dataTable)
     {
         $breadcrumbs = [
             [
@@ -18,7 +23,9 @@ class UserManagementController extends Controller
             ],
         ];
 
-        return view('pages.users.index', compact('breadcrumbs'));
+
+        $roles = Role::all();
+        return $dataTable->render('pages.users.index', compact('breadcrumbs', 'roles'));
     }
 
     /**
@@ -42,9 +49,25 @@ class UserManagementController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $role = Role::find($request->role_id);
+            if (!$role) return back()->with('error', 'Role tidak ditemukan');
+            $role->users()->create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'jabatan' => $request->jabatan,
+                'password' => bcrypt($request->password),
+            ]);
+
+            DB::commit();
+            return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('users.index')->with('error', 'User gagal ditambahkan');
+        }
     }
 
     /**
@@ -68,7 +91,27 @@ class UserManagementController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            $user = User::find($id);
+
+            $role = Role::find($request->role_id);
+            if (!$role) return back()->with('error', 'Role tidak ditemukan');
+
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'jabatan' => $request->jabatan,
+            ]);
+
+            $user->syncRoles([$role->id]);
+
+            DB::commit();
+            return redirect()->route('users.index')->with('success', 'User berhasil diupdate');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('users.index')->with('error', 'User gagal diupdate');
+        }
     }
 
     /**
@@ -76,6 +119,14 @@ class UserManagementController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            User::find($id)->delete();
+            DB::commit();
+            return redirect()->route('users.index')->with('success', 'User berhasil dihapus');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('users.index')->with('error', 'User gagal dihapus');
+        }
     }
 }

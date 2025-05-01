@@ -58,6 +58,8 @@ return new class extends Migration
 
             // status penyelesaian
             $table->string("status_penyelesaian")->nullable(); // selesai,tidak dapat di selesaikan
+            // jika sudah dilihat oleh admin
+            $table->boolean('is_view')->default(0);
 
             $table->timestamps();
         });

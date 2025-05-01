@@ -1,6 +1,5 @@
 <div class="d-flex gap-3">
-    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#userEditModal"
-        data-user=@json($user)>
+    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#userEditModal">
         <i class="fas fa-edit""></i>
     </button>
 

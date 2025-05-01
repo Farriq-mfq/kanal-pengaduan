@@ -10,6 +10,8 @@ Route::get('/', function () {
 })->name('dashboard');
 
 
-Route::resource('users', UserManagementController::class);
-Route::resource('roles', RolesManagementController::class);
-Route::resource('klasifikasi', KlasifikasiController::class);
+Route::prefix('kanal')->group(function () {
+    Route::resource('users', UserManagementController::class);
+    Route::resource('roles', RolesManagementController::class);
+    Route::resource('klasifikasi', KlasifikasiController::class);
+});

@@ -14,7 +14,7 @@
     <link rel="canonical" href="" />
 
     <title>
-        {{ config('app.name') || 'Laravel' }} | @yield('title')
+        {{ config('app.name') }} | @yield('title')
     </title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">

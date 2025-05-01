@@ -1,17 +1,20 @@
 <div class="d-flex gap-3">
-    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#userEditModal">
+    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+        data-bs-target="#userEditModal-{{ $user->id }}">
         <i class="fas fa-edit""></i>
     </button>
 
-    <div class="modal fade" id="userEditModal" tabindex="-1" aria-labelledby="userEditModal" aria-hidden="true">
+    <div class="modal fade" id="userEditModal-{{ $user->id }}" tabindex="-1"
+        aria-labelledby="userEditModal-{{ $user->id }}" aria-hidden="true">
         <div class="modal-dialog">
             <form class="modal-content" method="POST" action="{{ route('users.update', $user->id) }}">
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="userEditModal">Edit User</h1>
+                    <h1 class="modal-title fs-5" id="userEditModal-{{ $user->id }}">Edit User</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-12">

@@ -45,9 +45,9 @@
                                 @foreach ($permissions as $permission)
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="{{ $permission->id }}"
-                                            id="{{ $permission->id }}" name="permissions[]">
+                                            id="{{ $permission->id }}-permission" name="permissions[]">
                                         <label class="form-check-label" style="text-transform:uppercase"
-                                            for="{{ $permission->id }}" name="permissions[]">
+                                            for="{{ $permission->id }}-permission" name="permissions[]">
                                             {{ $permission->name }}
                                         </label>
                                     </div>

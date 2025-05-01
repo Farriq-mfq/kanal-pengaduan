@@ -1,15 +1,17 @@
 <div class="d-flex gap-3">
-    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#roleEditModal">
+    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+        data-bs-target="#roleEditModal-{{ $role->id }}">
         <i class="fas fa-edit""></i>
     </button>
 
-    <div class="modal fade" id="roleEditModal" tabindex="-1" aria-labelledby="roleEditModal" aria-hidden="true">
+    <div class="modal fade" id="roleEditModal-{{ $role->id }}" tabindex="-1"
+        aria-labelledby="roleEditModal-{{ $role->id }}" aria-hidden="true">
         <div class="modal-dialog">
             <form class="modal-content" method="POST" action="{{ route('roles.update', $role->id) }}">
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="roleEditModal">Edit Role</h1>
+                    <h1 class="modal-title fs-5" id="roleEditModal-{{ $role->id }}">Edit Role</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -34,10 +36,10 @@
                                 @foreach ($permissions as $permission)
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" @checked($role->permissions->contains($permission->id))
-                                            value="{{ $permission->id }}" id="{{ $permission->id }}"
+                                            value="{{ $permission->id }}-permission" id="{{ $permission->id }}"
                                             name="permissions[]">
                                         <label class="form-check-label" style="text-transform:uppercase"
-                                            for="{{ $permission->id }}" name="permissions[]">
+                                            for="{{ $permission->id }}-permission" name="permissions[]">
                                             {{ $permission->name }}
                                         </label>
                                     </div>

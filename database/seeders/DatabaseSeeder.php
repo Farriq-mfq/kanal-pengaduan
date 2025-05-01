@@ -24,24 +24,16 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
+
+        $this->call([
+            PermissionSeeder::class
+        ]);
+
         // all permissions
-        $permissios =  Permission::create(
-            [
-                'name' => 'view aduan',
-            ],
-            [
-                'name' => 'update aduan',
-            ],
-            [
-                'name' => 'kepala bidang',
-            ],
-            [
-                'name' => 'kepala dinas',
-            ],
-        );
+        $permissios =  Permission::all();
 
         // primary role
-        $role = Role::create(['name' => 'super-admin']);
+        $role = Role::create(['name' => 'superAdmin']);
         $role->givePermissionTo($permissios);
         $user->assignRole($role);
     }

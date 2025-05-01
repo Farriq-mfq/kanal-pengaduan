@@ -93,7 +93,6 @@ class UserManagementController extends Controller
     public function update(UpdateUserRequest $request, string $id)
     {
 
-        dd($request->all());
         DB::beginTransaction();
         try {
             $user = User::find($id);

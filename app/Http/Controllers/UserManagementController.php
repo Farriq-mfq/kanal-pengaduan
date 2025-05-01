@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\UserDataTable;
+use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -89,8 +90,10 @@ class UserManagementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, string $id)
     {
+
+        dd($request->all());
         DB::beginTransaction();
         try {
             $user = User::find($id);
@@ -109,6 +112,7 @@ class UserManagementController extends Controller
             DB::commit();
             return redirect()->route('users.index')->with('success', 'User berhasil diupdate');
         } catch (\Exception $e) {
+            dd($e);
             DB::rollBack();
             return redirect()->route('users.index')->with('error', 'User gagal diupdate');
         }

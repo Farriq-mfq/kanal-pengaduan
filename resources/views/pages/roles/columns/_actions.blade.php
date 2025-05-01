@@ -17,6 +17,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-12">
+                            <input type="hidden" name="_id" value="{{ $role->id }}">
                             <input type="hidden" name="_action" value="update">
                             <div class="form-group @error('name')
                             has-error has-feedback

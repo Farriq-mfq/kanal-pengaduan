@@ -108,6 +108,7 @@
             </form>
         </div>
 
+
         @push('scripts')
             {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 
@@ -117,9 +118,16 @@
                         $('#userAddModal').modal("show");
                     @endif
 
-                    $('#users-table').DataTable().on('draw.dt', function() {
+                    $('#users-table').DataTable().on('draw.dt', function(e) {
                         @if ($errors->any() && old('_action') == 'update')
-                            $('#userEditModal').modal("show");
+                            swal({
+                                title: "Error",
+                                text: "{{ $errors->first() }}",
+                                icon: "error",
+                                buttons: false,
+                                dangerMode: true,
+                            })
+                            $("#userEditModal-{{ old('_id') }}").modal("show");
                         @endif
                     })
                 })

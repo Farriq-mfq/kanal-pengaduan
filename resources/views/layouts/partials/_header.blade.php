@@ -3,8 +3,7 @@
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
             <a href="index.html" class="logo">
-                <img src="{{ asset('assets/img/logo-tab.svg') }}" alt="navbar brand" class="navbar-brand"
-                    height="40" />
+                <img src="{{ asset('assets/img/logo-tab.svg') }}" alt="navbar brand" class="navbar-brand" height="40" />
             </a>
             <div class="nav-toggle">
                 <button class="btn btn-toggle toggle-sidebar">
@@ -52,7 +51,8 @@
                     <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
                         aria-expanded="false">
                         <div class="avatar-sm">
-                            <img src="{{asset('assets/img/profile.jpg')}}" alt="..." class="avatar-img rounded-circle" />
+                            <img src="{{ asset('assets/img/profile.jpg') }}" alt="..."
+                                class="avatar-img rounded-circle" />
                         </div>
                         <span class="profile-username">
                             <span class="op-7">Hi,</span>
@@ -82,7 +82,11 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">Account Setting</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Logout</a>
+                                <form action="{{ route('logout') }}" id="logout-form" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="dropdown-item">Logout</button>
+                                </form>
                             </li>
                         </div>
                     </ul>
@@ -92,3 +96,26 @@
     </nav>
     <!-- End Navbar -->
 </div>
+
+@push('scripts')
+    <script>
+        const logoutForm = $("#logout-form");
+
+        logoutForm.on("click", function(e) {
+            e.preventDefault();
+            swal({
+                title: "Yakin ?",
+                text: "Anda akan keluar dari aplikasi ?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((logout) => {
+                if (logout) {
+                    logoutForm.submit();
+                }
+            })
+
+            return false;
+        });
+    </script>
+@endpush

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AuthRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -11,7 +13,7 @@ class AuthController extends Controller
      */
     public function index()
     {
-        return view();
+        return view('pages.auth.login');
     }
 
     /**
@@ -25,9 +27,10 @@ class AuthController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AuthRequest $request)
     {
-        //
+        $request->authenticate();
+        return redirect()->intended('/');
     }
 
     /**
@@ -57,8 +60,13 @@ class AuthController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
     }
 }

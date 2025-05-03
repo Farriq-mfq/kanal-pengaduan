@@ -19,7 +19,7 @@ class UserManagementController extends Controller
     {
         $breadcrumbs = [
             [
-                'link' => 'users.index',
+                'link' => route('users.index'),
                 'name' => 'Users'
             ],
         ];
@@ -34,17 +34,7 @@ class UserManagementController extends Controller
      */
     public function create()
     {
-        $breadcrumbs = [
-            [
-                'link' => 'users.index',
-                'name' => 'Users'
-            ],
-            [
-                'link' => 'users.create',
-                'name' => 'Create'
-            ],
-        ];
-        return view('pages.users.create', compact('breadcrumbs'));
+        //
     }
 
     /**

@@ -6,10 +6,22 @@ use App\DataTables\KlasifikasiDataTable;
 use App\Http\Requests\KlasifikasiRequest;
 use App\Models\Klasifikasi;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
 
-class KlasifikasiController extends Controller
+class KlasifikasiController extends Controller implements HasMiddleware
 {
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:klasifikasi view', only: ['index']),
+            new Middleware('permission:klasifikasi create', only: ['store']),
+            new Middleware('permission:klasifikasi update', only: ['update']),
+            new Middleware('permission:klasifikasi delete', only: ['destroy']),
+        ];
+    }
     /**
      * Display a listing of the resource.
      */
@@ -17,7 +29,7 @@ class KlasifikasiController extends Controller
     {
         $breadcrumbs = [
             [
-                'link' => 'klasifikasi.index',
+                'link' => route('klasifikasi.index'),
                 'name' => 'Klasifikasi'
             ]
         ];

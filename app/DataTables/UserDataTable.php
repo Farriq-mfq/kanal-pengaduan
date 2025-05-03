@@ -32,7 +32,7 @@ class UserDataTable extends DataTable
                 return view('pages.users.columns._actions', compact('user', 'roles'));
             })
 
-            ->setRowId('id');
+            ->setRowId('id')->addIndexColumn();
     }
 
     /**
@@ -72,7 +72,12 @@ class UserDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
+            Column::computed('DT_RowIndex')
+                ->title('#')
+                ->orderable(false)
+                ->searchable(false)
+                ->width(30)
+                ->addClass('text-center'),
             Column::make('Nama', 'name'),
             Column::make('email'),
             Column::make('role'),

@@ -13,7 +13,7 @@
                 <i class="icon-arrow-right"></i>
             </li>
             <li class="nav-item">
-                <a href="{{ route($breadcrumb['link']) }}">{{ $breadcrumb['name'] }}</a>
+                <a href="{{ $breadcrumb['link'] }}">{{ $breadcrumb['name'] }}</a>
             </li>
         @endforeach
     </ul>

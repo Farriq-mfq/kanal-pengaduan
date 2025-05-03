@@ -48,8 +48,8 @@
                     </span>
                     <h4 class="text-section">Aduan</h4>
                 </li>
-                <li @class(['nav-item', 'active' => is_active('klasifikasi.index')])>
-                    <a href="{{ route('klasifikasi.index') }}">
+                <li @class(['nav-item', 'active' => is_active('aduan.index')])>
+                    <a href="{{ route('aduan.index') }}">
                         <i class="fas fa-layer-group"></i>
                         <p>Daftar Aduan</p>
                         {{-- <span class="badge badge-success">4</span> --}}
@@ -75,13 +75,15 @@
                     </span>
                     <h4 class="text-section">Master Data</h4>
                 </li>
-                <li @class(['nav-item', 'active' => is_active('klasifikasi.index')])>
-                    <a href="{{ route('klasifikasi.index') }}">
-                        <i class="fas fa-list"></i>
-                        <p>Klasifikasi</p>
-                        {{-- <span class="badge badge-success">4</span> --}}
-                    </a>
-                </li>
+                @can('klasifikasi view')
+                    <li @class(['nav-item', 'active' => is_active('klasifikasi.index')])>
+                        <a href="{{ route('klasifikasi.index') }}">
+                            <i class="fas fa-list"></i>
+                            <p>Klasifikasi</p>
+                            {{-- <span class="badge badge-success">4</span> --}}
+                        </a>
+                    </li>
+                @endcan
                 <li @class(['nav-item', 'active' => is_active('users.index')])>
                     <a href="{{ route('users.index') }}">
                         <i class="fas fa-users"></i>

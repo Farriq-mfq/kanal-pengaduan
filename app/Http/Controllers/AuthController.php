@@ -30,7 +30,7 @@ class AuthController extends Controller
     public function store(AuthRequest $request)
     {
         $request->authenticate();
-        return redirect()->intended('/');
+        return redirect()->intended(route('dashboard'));
     }
 
     /**

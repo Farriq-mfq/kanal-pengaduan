@@ -19,14 +19,16 @@ class KlasifikasiDataTable extends DataTable
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        return (new EloquentDataTable($query))
-            ->addColumn('action', function (Klasifikasi $klasifikasi) {
+        $dataTable = (new EloquentDataTable($query))
+            ->setRowId('id')->addIndexColumn();
+
+        if (auth()->user()->can('klasifikasi update') || auth()->user()->can('klasifikasi delete')) {
+            $dataTable->addColumn('action', function (Klasifikasi $klasifikasi) {
                 return view('pages.klasifikasi.columns._actions', compact('klasifikasi'));
-            })
-            ->editColumn('Klasifikasi', function (Klasifikasi $klasifikasi) {
-                return $klasifikasi->klasifikasi;
-            })
-            ->setRowId('id');
+            });
+        }
+
+        return $dataTable;
     }
 
     /**
@@ -65,14 +67,26 @@ class KlasifikasiDataTable extends DataTable
      */
     public function getColumns(): array
     {
-        return [
-            Column::make('Klasifikasi', 'klasifikasi'),
-            Column::computed('action')
+        $columns = [
+            Column::computed('DT_RowIndex')
+                ->title('#')
+                ->orderable(false)
+                ->searchable(false)
+                ->width(30)
+                ->addClass('text-center'),
+            Column::make('klasifikasi')->title('Klasifikasi'),
+        ];
+
+
+        if (auth()->user()->can('klasifikasi update') || auth()->user()->can('klasifikasi delete')) {
+            $columns[] = Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
-                ->addClass('text-center'),
-        ];
+                ->addClass('text-center');
+        }
+
+        return $columns;
     }
 
     /**

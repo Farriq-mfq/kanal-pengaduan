@@ -2,9 +2,8 @@
 
 namespace App\DataTables;
 
+use App\Models\Aduan;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -13,22 +12,21 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class RoleDataTable extends DataTable
+class AduanDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
      *
-     * @param QueryBuilder<Role> $query Results from query() method.
+     * @param QueryBuilder<Aduan> $query Results from query() method.
      */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
-        $permissions = Permission::all();
         return (new EloquentDataTable($query))
-            ->addColumn('action', function (Role $role) use ($permissions) {
-                return view('pages.roles.columns._actions', compact('role', 'permissions'));
+            ->addColumn('action', function (Aduan $aduan) {
+                return view('pages.aduan.columns._actions', compact('aduan'));
             })
-            ->addColumn('Permissions', function (Role $role) {
-                return view('pages.roles.columns._permissions', compact('role'));
+            ->editColumn('nomer_aduan', function (Aduan $aduan) {
+                return view('pages.aduan.columns._nomer_aduan', compact('aduan'));
             })
             ->setRowId('id')->addIndexColumn();
     }
@@ -36,11 +34,11 @@ class RoleDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      *
-     * @return QueryBuilder<Role>
+     * @return QueryBuilder<Aduan>
      */
-    public function query(Role $model): QueryBuilder
+    public function query(Aduan $model): QueryBuilder
     {
-        return $model->with('permissions')->newQuery();
+        return $model->newQuery();
     }
 
     /**
@@ -49,7 +47,7 @@ class RoleDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-            ->setTableId('role-table')
+            ->setTableId('aduan-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->orderBy(1)
@@ -76,8 +74,9 @@ class RoleDataTable extends DataTable
                 ->searchable(false)
                 ->width(30)
                 ->addClass('text-center'),
-            Column::make('name')->title('Nama'),
-            Column::make('Permissions')->width(200),
+            Column::make('tanggal_pengaduan')->title('Tanggal Pengaduan'),
+            Column::make('nomer_aduan')->title('Nomor Aduan'),
+            Column::make('uraian_pengaduan')->title('Uraian Aduan'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
@@ -91,6 +90,6 @@ class RoleDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Role_' . date('YmdHis');
+        return 'Aduan_' . date('YmdHis');
     }
 }

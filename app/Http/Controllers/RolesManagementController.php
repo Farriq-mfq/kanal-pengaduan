@@ -18,7 +18,7 @@ class RolesManagementController extends Controller
     {
         $breadcrumbs = [
             [
-                'link' => 'roles.index',
+                'link' => route('roles.index'),
                 'name' => 'Roles'
             ]
         ];

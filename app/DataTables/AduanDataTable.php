@@ -28,6 +28,12 @@ class AduanDataTable extends DataTable
             ->editColumn('nomer_aduan', function (Aduan $aduan) {
                 return view('pages.aduan.columns._nomer_aduan', compact('aduan'));
             })
+            ->setRowClass(function (Aduan $aduan) {
+                if ($aduan->status_aduan === 'menunggu') return 'status-background-warning';
+                if ($aduan->status_aduan === 'proses') return 'status-background-info';
+                if ($aduan->status_aduan === 'ditolak') return 'status-background-danger';
+                if ($aduan->status_aduan === 'selesai') return 'status-background-success';
+            })
             ->setRowId('id')->addIndexColumn();
     }
 
@@ -74,8 +80,9 @@ class AduanDataTable extends DataTable
                 ->searchable(false)
                 ->width(30)
                 ->addClass('text-center'),
-            Column::make('tanggal_pengaduan')->title('Tanggal Pengaduan'),
-            Column::make('nomer_aduan')->title('Nomor Aduan'),
+            Column::make('tanggal_pengaduan')->title('Tanggal Pengaduan')->width(100),
+            Column::make('nomer_aduan')->title('Nomor Aduan')->width(100),
+            Column::make('tanggal_pengaduan')->title('Nama Pelapor')->width(150),
             Column::make('uraian_pengaduan')->title('Uraian Aduan'),
             Column::computed('action')
                 ->exportable(false)

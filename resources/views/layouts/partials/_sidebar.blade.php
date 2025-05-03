@@ -48,7 +48,7 @@
                     </span>
                     <h4 class="text-section">Aduan</h4>
                 </li>
-                <li @class(['nav-item', 'active' => is_active('aduan.index')])>
+                <li @class(['nav-item', 'active' => is_active('aduan.')])>
                     <a href="{{ route('aduan.index') }}">
                         <i class="fas fa-layer-group"></i>
                         <p>Daftar Aduan</p>

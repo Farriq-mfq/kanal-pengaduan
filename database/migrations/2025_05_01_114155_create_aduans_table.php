@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text("text_direct_pengaduan")->nullable(); // jika jawab langsung maka true dan langsung di kerim ke email
             // document pendukuung menggunakan laravel media library
             $table->date("tanggal_pengaduan");
-            $table->enum("status_aduan", ["proses", "selesai", "ditolak"])->default("proses");
+            $table->enum("status_aduan", ["proses", "selesai", "ditolak", "menunggu"])->default("menunggu");
             $table->string("alasan_penolakan")->nullable();
             $table->string("tindak_lanjut")->nullable();
             // kecepatan tindak lanjut
@@ -58,7 +58,7 @@ return new class extends Migration
 
             // status penyelesaian
             $table->string("status_penyelesaian")->nullable(); // selesai,tidak dapat di selesaikan
-            // jika sudah dilihat oleh admin
+            // jika sudah dilihat oleh masyarakat maka true
             $table->boolean('is_view')->default(0);
 
             $table->timestamps();

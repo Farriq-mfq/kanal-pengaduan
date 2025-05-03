@@ -8,11 +8,11 @@
             <a href="{{ route('aduan.detail', $aduan->id) }}" class="dropdown-item fs-5 text-info" title="Detail"><i
                     class="fas fa-arrow-right me-2"></i>Detail</a>
         </li>
-        <li>
+        <li id="accept_aduan" data-id="{{ $aduan->id }}">
             <button class="dropdown-item fs-5 text-success" title="Lanjut"><i
                     class="fas fa-check me-2"></i>Lanjut</button>
         </li>
-        <li>
+        <li id="reject_aduan" data-id="{{ $aduan->id }}">
             <button class="dropdown-item fs-5 text-danger" title="Tolak">
                 <i class="fas fa-times me-2"></i> Tolak
             </button>

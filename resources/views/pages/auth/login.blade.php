@@ -1,4 +1,4 @@
-<x-auth-layout>
+<x-auth-layout title="Login">
     <div class="card rounded-2 border">
         <div class="card-body p-5">
             <div class="text-center mb-5">

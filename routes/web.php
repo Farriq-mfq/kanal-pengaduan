@@ -21,6 +21,8 @@ Route::prefix('kanal')->group(function () {
         Route::prefix('aduan')->group(function () {
             Route::get('/', [DaftarAduanController::class, 'index'])->name('aduan.index');
             Route::get('/{id}/detail', [DaftarAduanController::class, 'show'])->name('aduan.detail');
+            Route::patch('/{id}/accept', [DaftarAduanController::class, 'accept'])->name('aduan.accept');
+            Route::patch('/{id}/reject', [DaftarAduanController::class, 'reject'])->name('aduan.reject');
         });
     });
 

@@ -4,15 +4,7 @@
             <div class="row gap-5">
                 <div class="col-12">
                     <div class="row">
-                        <div class="col-md-12 mb-2">
-                            <h5 class="fs-4 fw-bold">
-
-                                Uraian Aduan</h5>
-                            <p>
-                                {{ $aduan->uraian_pengaduan }}
-                            </p>
-                        </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6 col-12">
                             <h5 class="fs-4 fw-bold">
 
                                 Informasi Aduan</h5>
@@ -38,8 +30,10 @@
                                 <tr>
                                     <th>Status Verifikasi</th>
                                     <td>
-                                        @if ($aduan->status_aduan == 'proses')
-                                            <span><i class="fa fa-clock text-warning me-2"></i> Proses</span>
+                                        @if ($aduan->status_aduan == 'menunggu')
+                                            <span><i class="fa fa-clock text-warning me-2"></i> Menunggu</span>
+                                        @elseif ($aduan->status_aduan == 'proses')
+                                            <span><i class="fa fa-info text-warning me-2"></i> Proses</span>
                                         @elseif($aduan->status_aduan == 'ditolak')
                                             <span><i class="fa fa-times text-danger me-2"></i>Ditolak</span>
                                         @elseif($aduan->status_aduan == 'selesai')
@@ -57,7 +51,15 @@
                                 @endif
                             </table>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6 col-12 mb-2">
+                            <h5 class="fs-4 fw-bold">
+
+                                Uraian Aduan</h5>
+                            <p>
+                                {{ $aduan->uraian_pengaduan }}
+                            </p>
+                        </div>
+                        <div class="col-md-6 col-12">
                             <h5 class="fs-4 fw-bold">
                                 Tindak Lanjut Aduan
                             </h5>
@@ -91,7 +93,7 @@
                                 </tr>
                             </table>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-6 col-12">
                             <h5 class="fs-4 fw-bold">
                                 Kepala Bidang
                             </h5>
@@ -114,15 +116,95 @@
                                         @if ($aduan->verifikasi_kepala_bidang)
                                             <span class="badge bg-success">Terverifikasi</span>
                                         @else
-                                            <span class="badge bg-danger">Terverifikasi</span>
+                                            <span class="badge bg-danger">Belum Terverifikasi</span>
                                         @endif
-                                        -
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Uraian Tindakan</th>
                                     <td>
                                         {{ $aduan->uraian_tindak_lanjut_kepala_bidang ?? '-' }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <h5 class="fs-4 fw-bold">
+                                Telaah Aduan
+                            </h5>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>Hasil Telaah</th>
+                                    <td>
+                                        {{ $aduan->telaah_aduan ?? '-' }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <h5 class="fs-4 fw-bold">
+                                Mediasi
+                            </h5>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>Status Mediasi</th>
+                                    <td>
+                                        @if ($aduan->status_mediasi)
+                                            <span><i class="fa fa-check text-success me-2"></i>Dilakukan Mediasi</span>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Tanggal Mediasi</th>
+                                    <td>
+                                        {{ $aduan->tanggal_mediasi ?? '-' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Uraian Mediasi</th>
+                                    <td>
+                                        {{ $aduan->uraian_mediasi ?? '-' }}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <h5 class="fs-4 fw-bold">
+                                Tersampaikan
+                            </h5>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>Status Disampaikan</th>
+                                    <td>
+                                        @if ($aduan->status_disampaikan)
+                                            <span><i class="fa fa-check text-success me-2"></i>Tersampaikan</span>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Tanggal Disampaikan</th>
+                                    <td>
+                                        {{ $aduan->tanggal_disampaikan ?? '-' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Tanggapan Masyarakat</th>
+                                    <td>
+                                        {{ $aduan->tanggapan ?? '-' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Dilihat</th>
+                                    <td>
+                                        @if ($aduan->is_view)
+                                            <span><i class="fa fa-check text-success me-2"></i>Dilihat</span>
+                                        @else
+                                            -
+                                        @endif
                                     </td>
                                 </tr>
                             </table>

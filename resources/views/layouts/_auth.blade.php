@@ -6,3 +6,5 @@
         </div>
     </div>
 @endsection
+
+@section('title', $title)

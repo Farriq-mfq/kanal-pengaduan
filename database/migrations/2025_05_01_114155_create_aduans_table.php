@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->text("uraian_pengaduan"); // ringkasan atau uraian pengaduan
             $table->string("nomer_aduan")->unique();
-            $table->boolean("verifikasi")->default(0);
-            $table->boolean("direct_pengaduan")->default(0); // jika jawab langsung maka true dan langsung di kerim ke email
+            $table->text("text_direct_pengaduan")->nullable(); // jika jawab langsung maka true dan langsung di kerim ke email
             // document pendukuung menggunakan laravel media library
             $table->date("tanggal_pengaduan");
             $table->enum("status_aduan", ["proses", "selesai", "ditolak"])->default("proses");
+            $table->string("alasan_penolakan")->nullable();
             $table->string("tindak_lanjut")->nullable();
             // kecepatan tindak lanjut
             $table->enum('kecepatan_tindak_lanjut', ['Biasa', 'Segera', 'Amat Segera'])->nullable();

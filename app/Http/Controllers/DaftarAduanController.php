@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\AduanDataTable;
+use App\Models\Aduan;
 
 class DaftarAduanController extends Controller
 {
@@ -30,6 +31,9 @@ class DaftarAduanController extends Controller
                 'name' => "Detail Aduan"
             ]
         ];
-        return view('pages.aduan.detail', compact('breadcrumbs'));
+
+        $aduan = Aduan::findOrFail($id);
+
+        return view('pages.aduan.detail', compact('breadcrumbs', 'aduan'));
     }
 }

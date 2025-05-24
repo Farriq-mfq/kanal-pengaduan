@@ -24,7 +24,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($this->_id)],
+            'username' => ['required', 'string', 'max:255', Rule::unique('users', 'username')->ignore($this->_id)],
             'jabatan' => ['required', 'string', 'max:255'],
             'role_id' => ['required', 'max:255'],
         ];
@@ -34,7 +34,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name.required' => 'Nama tidak boleh kosong',
-            'email.required' => 'Email tidak boleh kosong',
+            'username.required' => 'Email tidak boleh kosong',
             'jabatan.required' => 'Jabatan tidak boleh kosong',
             'role_id.required' => 'Role tidak boleh kosong',
         ];

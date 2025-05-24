@@ -38,14 +38,14 @@
                                     <small class="form-text text-muted text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
-                            <div class="form-group @error('email')
+                            <div class="form-group @error('username')
                                 has-error has-feedback
                             @enderror"
                                 style="text-align: left">
-                                <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" name="email"
-                                    value="{{ old('email') }}" />
-                                @error('email')
+                                <label for="username">Username</label>
+                                <input type="username" class="form-control" id="username" name="username"
+                                    value="{{ old('username') }}" />
+                                @error('username')
                                     <small class="form-text text-muted text-danger">{{ $message }}</small>
                                 @enderror
                             </div>

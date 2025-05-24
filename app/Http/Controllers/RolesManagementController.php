@@ -5,12 +5,23 @@ namespace App\Http\Controllers;
 use App\DataTables\RoleDataTable;
 use App\Http\Requests\RoleRequest;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class RolesManagementController extends Controller
+class RolesManagementController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:roles view', only: ['index']),
+            new Middleware('permission:roles create', only: ['store']),
+            new Middleware('permission:roles update', only: ['update']),
+            new Middleware('permission:roles delete', only: ['destroy']),
+        ];
+    }
     /**
      * Display a listing of the resource.
      */

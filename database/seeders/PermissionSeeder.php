@@ -40,11 +40,13 @@ class PermissionSeeder extends Seeder
 
         $aduan = [
             'aduan view',
-            'aduan create',
+            // 'aduan create',
             'aduan update',
             'aduan direct',
             'aduan reject',
             'aduan accept',
+            'aduan continue',
+            'aduan delete',
 
         ];
 

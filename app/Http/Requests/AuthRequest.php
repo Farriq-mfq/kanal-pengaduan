@@ -27,7 +27,7 @@ class AuthRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email', 'max:255'],
+            'username' => ['required', 'string', 'max:255'],
             'password' => ['required'],
         ];
     }
@@ -35,7 +35,7 @@ class AuthRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.required' => 'Email wajib diisi',
+            'username.required' => 'Username wajib diisi',
             'password.required' => 'Password wajib diisi',
         ];
     }
@@ -44,12 +44,12 @@ class AuthRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        $credentials = $this->only('email', 'password');
+        $credentials = $this->only('username', 'password');
 
         if (!Auth::attempt($credentials, $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey(), 60);
             throw ValidationException::withMessages([
-                'email' => "Email atau password salah",
+                'username' => "Username atau password salah",
             ]);
         }
 
@@ -60,7 +60,7 @@ class AuthRequest extends FormRequest
 
     protected function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
 
@@ -69,12 +69,12 @@ class AuthRequest extends FormRequest
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
-            'email' => "Too many login attempts. Please try again in {$seconds} seconds.",
+            'username' => "Too many login attempts. Please try again in {$seconds} seconds.",
         ]);
     }
 
     public function throttleKey(): string
     {
-        return Str::lower($this->input('email')) . '|' . $this->ip();
+        return Str::lower($this->input('username')) . '|' . $this->ip();
     }
 }

@@ -101,13 +101,13 @@
                                 <tr>
                                     <th>Nama </th>
                                     <td>
-                                        Test
+                                        {{ $aduan->kepala_bidang->name ?? '-' }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>Bagian</th>
                                     <td>
-                                        {{ $aduan->tanggal_tindak_lanjut_kepala_bidang ?? '-' }}
+                                        {{ $aduan->kepala_bidang->jabatan ?? '-' }}
                                     </td>
                                 </tr>
                                 <tr>

@@ -79,7 +79,7 @@ class UserDataTable extends DataTable
                 ->width(30)
                 ->addClass('text-center'),
             Column::make('Nama', 'name'),
-            Column::make('email'),
+            Column::make('username'),
             Column::make('role'),
             Column::make('jabatan'),
             Column::computed('action')

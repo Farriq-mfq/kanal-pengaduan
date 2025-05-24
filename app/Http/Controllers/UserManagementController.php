@@ -7,11 +7,22 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
-class UserManagementController extends Controller
+class UserManagementController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:users view', only: ['index']),
+            new Middleware('permission:users create', only: ['store']),
+            new Middleware('permission:users update', only: ['update']),
+            new Middleware('permission:users delete', only: ['destroy']),
+        ];
+    }
     /**
      * Display a listing of the resource.
      */
@@ -45,10 +56,11 @@ class UserManagementController extends Controller
         DB::beginTransaction();
         try {
             $role = Role::find($request->role_id);
-            if (!$role) return back()->with('error', 'Role tidak ditemukan');
+            if (!$role)
+                return back()->with('error', 'Role tidak ditemukan');
             $role->users()->create([
                 'name' => $request->name,
-                'email' => $request->email,
+                'username' => $request->username,
                 'jabatan' => $request->jabatan,
                 'password' => bcrypt($request->password),
             ]);
@@ -88,11 +100,12 @@ class UserManagementController extends Controller
             $user = User::find($id);
 
             $role = Role::find($request->role_id);
-            if (!$role) return back()->with('error', 'Role tidak ditemukan');
+            if (!$role)
+                return back()->with('error', 'Role tidak ditemukan');
 
             $user->update([
                 'name' => $request->name,
-                'email' => $request->email,
+                'username' => $request->username,
                 'jabatan' => $request->jabatan,
             ]);
 

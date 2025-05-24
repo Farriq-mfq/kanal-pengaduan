@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date("tanggal_pengaduan");
             $table->enum("status_aduan", ["proses", "selesai", "ditolak", "menunggu"])->default("menunggu");
             $table->string("alasan_penolakan")->nullable();
-            $table->string("tindak_lanjut")->nullable();
+            $table->text("tindak_lanjut")->nullable();
             // kecepatan tindak lanjut
             $table->enum('kecepatan_tindak_lanjut', ['Biasa', 'Segera', 'Amat Segera'])->nullable();
             // klasifikasi aduan

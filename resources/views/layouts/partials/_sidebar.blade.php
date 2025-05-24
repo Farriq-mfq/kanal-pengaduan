@@ -69,12 +69,14 @@
                         {{-- <span class="badge badge-success">4</span> --}}
                     </a>
                 </li>
-                <li class="nav-section">
-                    <span class="sidebar-mini-icon">
-                        <i class="fa fa-ellipsis-h"></i>
-                    </span>
-                    <h4 class="text-section">Master Data</h4>
-                </li>
+                @can(['klasifikasi view', 'users view', 'roles view'])
+                    <li class="nav-section">
+                        <span class="sidebar-mini-icon">
+                            <i class="fa fa-ellipsis-h"></i>
+                        </span>
+                        <h4 class="text-section">Master Data</h4>
+                    </li>
+                @endcan
                 @can('klasifikasi view')
                     <li @class(['nav-item', 'active' => is_active('klasifikasi.index')])>
                         <a href="{{ route('klasifikasi.index') }}">
@@ -84,20 +86,24 @@
                         </a>
                     </li>
                 @endcan
-                <li @class(['nav-item', 'active' => is_active('users.index')])>
-                    <a href="{{ route('users.index') }}">
-                        <i class="fas fa-users"></i>
-                        <p>Users</p>
-                        {{-- <span class="badge badge-success">4</span> --}}
-                    </a>
-                </li>
-                <li @class(['nav-item', 'active' => is_active('roles.index')])>
-                    <a href="{{ route('roles.index') }}">
-                        <i class="fas fa-key"></i>
-                        <p>Hak Akses</p>
-                        {{-- <span class="badge badge-success">4</span> --}}
-                    </a>
-                </li>
+                @can('users view')
+                    <li @class(['nav-item', 'active' => is_active('users.index')])>
+                        <a href="{{ route('users.index') }}">
+                            <i class="fas fa-users"></i>
+                            <p>Users</p>
+                            {{-- <span class="badge badge-success">4</span> --}}
+                        </a>
+                    </li>
+                @endcan
+                @can('roles view')
+                    <li @class(['nav-item', 'active' => is_active('roles.index')])>
+                        <a href="{{ route('roles.index') }}">
+                            <i class="fas fa-key"></i>
+                            <p>Hak Akses</p>
+                            {{-- <span class="badge badge-success">4</span> --}}
+                        </a>
+                    </li>
+                @endcan
             </ul>
         </div>
     </div>

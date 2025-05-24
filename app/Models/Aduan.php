@@ -38,4 +38,10 @@ class Aduan extends Model
         'status_penyelesaian',
         'is_view',
     ];
+
+
+    public function kepala_bidang()
+    {
+        return $this->belongsTo(User::class, 'kepala_bidang_id');
+    }
 }

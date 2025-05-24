@@ -29,10 +29,17 @@ class AduanDataTable extends DataTable
                 return view('pages.aduan.columns._nomer_aduan', compact('aduan'));
             })
             ->setRowClass(function (Aduan $aduan) {
-                if ($aduan->status_aduan === 'menunggu') return 'status-background-warning';
-                if ($aduan->status_aduan === 'proses') return 'status-background-info';
-                if ($aduan->status_aduan === 'ditolak') return 'status-background-danger';
-                if ($aduan->status_aduan === 'selesai') return 'status-background-success';
+                if ($aduan->status_aduan === 'menunggu')
+                    return 'status-background-warning';
+                if ($aduan->status_aduan === 'proses')
+                    return 'status-background-info';
+                if ($aduan->status_aduan === 'ditolak')
+                    return 'status-background-danger';
+                if ($aduan->status_aduan === 'selesai')
+                    return 'status-background-success';
+            })
+            ->editColumn('verifikasi_kepala_bidang', function (Aduan $aduan) {
+                return view('pages.aduan.columns._verifikasi_kepala_bidang', compact('aduan'));
             })
             ->setRowId('id')->addIndexColumn();
     }
@@ -44,7 +51,26 @@ class AduanDataTable extends DataTable
      */
     public function query(Aduan $model): QueryBuilder
     {
-        return $model->newQuery();
+        $permission = auth()->user()->getPermission();
+        $searchPermission = $permission->contains('kepala bidang');
+        $role = auth()->user()->role;
+        if ($role != 'superAdmin') {
+            if ($searchPermission) {
+                return $model
+                    ->where('kepala_bidang_id', auth()->user()->id)
+                    ->orderBy('id', 'desc')
+                    ->newQuery();
+            } else {
+                return $model
+                    ->orderBy('id', 'desc')
+                    ->newQuery();
+            }
+        } else {
+            return $model
+                ->orderBy('id', 'desc')
+                ->newQuery();
+        }
+
     }
 
     /**
@@ -73,23 +99,68 @@ class AduanDataTable extends DataTable
      */
     public function getColumns(): array
     {
-        return [
-            Column::computed('DT_RowIndex')
-                ->title('#')
-                ->orderable(false)
-                ->searchable(false)
-                ->width(30)
-                ->addClass('text-center'),
-            Column::make('tanggal_pengaduan')->title('Tanggal Pengaduan')->width(100),
-            Column::make('nomer_aduan')->title('Nomor Aduan')->width(100),
-            Column::make('tanggal_pengaduan')->title('Nama Pelapor')->width(150),
-            Column::make('uraian_pengaduan')->title('Uraian Aduan'),
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
-        ];
+        $permission = auth()->user()->getPermission();
+        $searchPermission = $permission->contains('kepala bidang');
+        $role = auth()->user()->role;
+        if ($role != 'superAdmin') {
+            if ($searchPermission) {
+                return [
+                    Column::computed('DT_RowIndex')
+                        ->title('#')
+                        ->orderable(false)
+                        ->searchable(false)
+                        ->width(30)
+                        ->addClass('text-center'),
+                    Column::make('tanggal_pengaduan')->title('Tanggal Pengaduan')->width(100),
+                    Column::make('nomer_aduan')->title('Nomor Aduan')->width(100),
+                    Column::make('tanggal_pengaduan')->title('Nama Pelapor')->width(150),
+                    Column::make('uraian_pengaduan')->title('Uraian Aduan'),
+                    Column::make('verifikasi_kepala_bidang')->title('Status Verifikasi Kepala Bidang'),
+                    Column::computed('action')
+                        ->exportable(false)
+                        ->printable(false)
+                        ->width(60)
+                        ->addClass('text-center'),
+                ];
+            } else {
+                return [
+                    Column::computed('DT_RowIndex')
+                        ->title('#')
+                        ->orderable(false)
+                        ->searchable(false)
+                        ->width(30)
+                        ->addClass('text-center'),
+                    Column::make('tanggal_pengaduan')->title('Tanggal Pengaduan')->width(100),
+                    Column::make('nomer_aduan')->title('Nomor Aduan')->width(100),
+                    Column::make('tanggal_pengaduan')->title('Nama Pelapor')->width(150),
+                    Column::make('uraian_pengaduan')->title('Uraian Aduan'),
+                    Column::computed('action')
+                        ->exportable(false)
+                        ->printable(false)
+                        ->width(60)
+                        ->addClass('text-center'),
+                ];
+            }
+        } else {
+            return [
+                Column::computed('DT_RowIndex')
+                    ->title('#')
+                    ->orderable(false)
+                    ->searchable(false)
+                    ->width(30)
+                    ->addClass('text-center'),
+                Column::make('tanggal_pengaduan')->title('Tanggal Pengaduan')->width(100),
+                Column::make('nomer_aduan')->title('Nomor Aduan')->width(100),
+                Column::make('tanggal_pengaduan')->title('Nama Pelapor')->width(150),
+                Column::make('uraian_pengaduan')->title('Uraian Aduan'),
+                Column::computed('action')
+                    ->exportable(false)
+                    ->printable(false)
+                    ->width(60)
+                    ->addClass('text-center'),
+            ];
+        }
+
     }
 
     /**

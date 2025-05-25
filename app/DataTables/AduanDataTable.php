@@ -41,6 +41,9 @@ class AduanDataTable extends DataTable
             ->editColumn('verifikasi_kepala_bidang', function (Aduan $aduan) {
                 return view('pages.aduan.columns._verifikasi_kepala_bidang', compact('aduan'));
             })
+            ->editColumn('verifikasi_kepala_dinas', function (Aduan $aduan) {
+                return view('pages.aduan.columns._verifikasi_kepala_dinas', compact('aduan'));
+            })
             ->setRowId('id')->addIndexColumn();
     }
 
@@ -53,11 +56,17 @@ class AduanDataTable extends DataTable
     {
         $permission = auth()->user()->getPermission();
         $searchPermission = $permission->contains('kepala bidang');
+        $kapaladinas = $permission->contains('kepala dinas');
         $role = auth()->user()->role;
         if ($role != 'superAdmin') {
             if ($searchPermission) {
                 return $model
                     ->where('kepala_bidang_id', auth()->user()->id)
+                    ->orderBy('id', 'desc')
+                    ->newQuery();
+            } else if ($kapaladinas) {
+                return $model
+                    ->where('kepala_dinas_id', auth()->user()->id)
                     ->orderBy('id', 'desc')
                     ->newQuery();
             } else {
@@ -116,6 +125,7 @@ class AduanDataTable extends DataTable
                     Column::make('tanggal_pengaduan')->title('Nama Pelapor')->width(150),
                     Column::make('uraian_pengaduan')->title('Uraian Aduan'),
                     Column::make('verifikasi_kepala_bidang')->title('Status Verifikasi Kepala Bidang'),
+                    Column::make('verifikasi_kepala_dinas')->title('Status Verifikasi Kepala Dinas'),
                     Column::computed('action')
                         ->exportable(false)
                         ->printable(false)
@@ -134,6 +144,8 @@ class AduanDataTable extends DataTable
                     Column::make('nomer_aduan')->title('Nomor Aduan')->width(100),
                     Column::make('tanggal_pengaduan')->title('Nama Pelapor')->width(150),
                     Column::make('uraian_pengaduan')->title('Uraian Aduan'),
+                    Column::make('verifikasi_kepala_bidang')->title('Status Verifikasi Kepala Bidang'),
+                    Column::make('verifikasi_kepala_dinas')->title('Status Verifikasi Kepala Dinas'),
                     Column::computed('action')
                         ->exportable(false)
                         ->printable(false)

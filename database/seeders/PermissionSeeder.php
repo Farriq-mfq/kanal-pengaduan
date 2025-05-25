@@ -47,6 +47,8 @@ class PermissionSeeder extends Seeder
             'aduan accept',
             'aduan continue',
             'aduan delete',
+            'aduan mediasi',
+            'aduan tindak_lanjut',
 
         ];
 

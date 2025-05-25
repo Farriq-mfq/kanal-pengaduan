@@ -46,33 +46,60 @@
         </div>
     </div>
 
-    <div class="modal fade" tabindex="-1" id="modalTeruskan">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Teruskan Ke Kepala Bidang</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    @can('aduan continue')
+        <div class="modal fade" tabindex="-1" id="modalTeruskan">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Teruskan Ke Kepala Bidang</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="formTeruskan" method="POST">
+                        <div class="modal-body">
+                            <select name="kepala_bidang_id" class="form-control">
+                                <option value="">Pilih Kepala Bidang</option>
+                                @foreach ($kepala_bidang as $kb)
+                                    <option value="{{ $kb->id }}">
+                                        {{ $kb->name }} ({{ $kb->jabatan }})
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="btnTeruskan">
+                                Teruskan
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <form id="formTeruskan" method="POST">
-                    <div class="modal-body">
-                        <select name="kepala_bidang_id" class="form-control">
-                            <option value="">Pilih Kepala Bidang</option>
-                            @foreach ($kepala_bidang as $kb)
-                                <option value="{{ $kb->id }}">
-                                    {{ $kb->name }} ({{ $kb->jabatan }})
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" id="btnTeruskan">
-                            Teruskan
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
-    </div>
+    @endcan
+    @can('aduan reject')
+        <div class="modal fade" tabindex="-1" id="modalRejectAduan">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            Tolak Aduan
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="formRejectAduan" method="POST">
+                        <div class="modal-body">
+                            <textarea class="form-control" name="alasan_penolakan" cols="30" rows="5"
+                                placeholder="Tuliskan Alasan Penolakan"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger" id="btnRejectAduan">
+                                Tolak
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endcan
     @can('kepala bidang')
         <div class="modal fade" tabindex="-1" id="modalVerifikasiKepalaBidang">
             <div class="modal-dialog">
@@ -86,10 +113,75 @@
                     <form id="formVerifikasiKepalaBidang" method="POST">
                         <div class="modal-body">
                             <textarea class="form-control" name="uraian_verifikasi" cols="30" rows="5" placeholder="Uraian Verifikasi"></textarea>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="kepala_dinas"
+                                    id="continueKepalaDinas">
+                                <label class="form-check-label" for="continueKepalaDinas">
+                                    Terukan Ke Kepala Dinas
+                                </label>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary" id="btnVerifikasiKepalaBidang">
                                 Verifikasi
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endcan
+    @can('aduan direct')
+        <div class="modal fade" tabindex="-1" id="modalDirectAduan">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            Jawab Langsung Aduan
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="formDirectAduan" method="POST">
+                        <div class="modal-body">
+                            <textarea class="form-control" name="text_direct_pengaduan" cols="30" rows="5" placeholder="Jawaban"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="btnDirectAduan">
+                                Jawab
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endcan
+
+    @can('aduan tindak_lanjut')
+        <div class="modal fade" tabindex="-1" id="modalTindakLanjut">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            Tindak Lanjut Aduan
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="formTindakLanjut" method="POST">
+                        <div class="modal-body">
+                            <textarea class="form-control" name="tindak_lanjut" cols="30" rows="5"
+                                placeholder="Tuliskan Tindak Lanjut"></textarea>
+                                <div class="form-control">
+                                    <select name="kecepatan_tindak_lanjut" id="kecepatan_tindak_lanjut" class="form-control">
+                                        <option value="Biasa">Biasa</option>
+                                        <option value="Segera">Segera</option>
+                                        <option value="Amat Segera">Amat Segera</option>
+                                    </select>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" id="btnTindakLanjut">
+                                Berikan Catatan Tindak Lanjut
                             </button>
                         </div>
                     </form>
@@ -175,33 +267,40 @@
                 })
                 // reject
                 $(document).on("click", "#reject_aduan", function() {
-                    swal({
-                        title: "Yakin ?",
-                        text: "Anda akan menolak aduan ini ?",
-                        icon: "warning",
-                        buttons: true,
-                        dangerMode: true,
-                        buttons: ["Batal", "Tolak"],
-                    }).then((accept) => {
-                        if (accept) {
-                            const id = $(this).data('id');
-                            const url = "{{ route('aduan.reject', ':id') }}".replace(':id', id);
-                            $.ajax({
-                                method: "PATCH",
-                                url,
-                                data: {
-                                    _token: "{{ csrf_token() }}"
-                                },
-                                success: function(res) {
-                                    if (res.success) {
-                                        swal("Berhasil", res.message, "success");
-                                        location.reload();
-                                    }
-                                },
-                                error: function(err) {
-                                    swal("Gagal", err.responseJSON.message, "error");
-                                }
-                            })
+                    $("#formRejectAduan").attr('action', "{{ route('aduan.reject', ':id') }}".replace(':id', $(
+                        this).data('id')));
+                    $("#modalRejectAduan").modal('show');
+                })
+
+                $("#formRejectAduan").on("submit", function(e) {
+                    e.preventDefault();
+
+                    const button = $("#btnRejectAduan");
+                    $.ajax({
+                        method: "PATCH",
+                        url: $(this).attr('action'),
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            alasan_penolakan: $("textarea[name=alasan_penolakan]").val(),
+                        },
+                        beforeSend: function() {
+                            button.attr('disabled', true)
+                            button.html(
+                                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...'
+                            )
+                        },
+                        success: function(res) {
+                            if (res.success) {
+                                swal("Berhasil", res.message, "success");
+                                location.reload();
+                            }
+                        },
+                        error: function(err) {
+                            swal("Gagal", err.responseJSON.message, "error");
+                        },
+                        complete: function() {
+                            button.attr('disabled', false)
+                            button.html('Tolak')
                         }
                     })
                 })
@@ -259,7 +358,6 @@
                     $("#modalVerifikasiKepalaBidang").modal('show');
                 })
 
-
                 $("#formVerifikasiKepalaBidang").on("submit", function(e) {
                     e.preventDefault();
 
@@ -270,6 +368,7 @@
                         data: {
                             _token: "{{ csrf_token() }}",
                             uraian_verifikasi: $("textarea[name=uraian_verifikasi]").val(),
+                            kepala_dinas: $("input[name=kepala_dinas]").is(":checked")
                         },
                         beforeSend: function() {
                             button.attr('disabled', true)
@@ -296,6 +395,99 @@
                         },
                     })
                 })
+
+                // direct aduan
+                $(document).on("click", "#direct_aduan", function() {
+                    const form = $("#formDirectAduan");
+                    form.attr('action', "{{ route('aduan.direct', ':id') }}".replace(':id', $(this).data(
+                        'id')))
+                    $("#modalDirectAduan").modal('show');
+                })
+
+                $("#formDirectAduan").on("submit", function(e) {
+                    e.preventDefault();
+
+                    const button = $("#btnDirectAduan");
+                    $.ajax({
+                        method: "PATCH",
+                        url: $(this).attr('action'),
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            text_direct_pengaduan: $("textarea[name=text_direct_pengaduan]").val(),
+                        },
+                        beforeSend: function() {
+                            button.attr('disabled', true)
+                            button.html(
+                                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...'
+                            )
+                        },
+                        success: function(res) {
+                            if (res.success) {
+                                swal("Berhasil", res.message, "success");
+                                location.reload();
+                            }
+                        },
+                        error: function(err) {
+                            if (err.responseJSON.message) {
+                                swal("Gagal", err.responseJSON.message, "error");
+                                return;
+                            }
+                            swal("Gagal", "Terjadi kesalahan", "error");
+                        },
+                        complete: function() {
+                            button.attr('disabled', false)
+                            button.html('Teruskan')
+                        },
+                    })
+                })
+
+                // tindak Lanjut
+                $(document).on("click", "#tindak_lanjut", function() {
+                    const form = $("#formTindakLanjut");
+                    form.attr('action', "{{ route('aduan.tindak_lanjut', ':id') }}".replace(':id', $(this)
+                        .data(
+                            'id')))
+                    $("#modalTindakLanjut").modal('show');
+                })
+
+                $("#formTindakLanjut").on("submit", function(e) {
+                    e.preventDefault();
+
+                    const button = $("#btnTindakLanjut");
+                    $.ajax({
+                        method: "PATCH",
+                        url: $(this).attr('action'),
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            tindak_lanjut: $("textarea[name=tindak_lanjut]").val(),
+                            kecepatan_tindak_lanjut: $("select[name=kecepatan_tindak_lanjut]").val(),
+                        },
+                        beforeSend: function() {
+                            button.attr('disabled', true)
+                            button.html(
+                                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...'
+                            )
+                        },
+                        success: function(res) {
+                            if (res.success) {
+                                swal("Berhasil", res.message, "success");
+                                location.reload();
+                            }
+                        },
+                        error: function(err) {
+                            if (err.responseJSON.message) {
+                                swal("Gagal", err.responseJSON.message, "error");
+                                return;
+                            }
+                            swal("Gagal", "Terjadi kesalahan", "error");
+                        },
+                        complete: function() {
+                            button.attr('disabled', false)
+                            button.html('Berikan Catatan Tindak Lanjut')
+                        },
+                    })
+                })
+
             })
         </script>
     @endpush

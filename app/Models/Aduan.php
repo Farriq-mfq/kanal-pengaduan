@@ -44,4 +44,9 @@ class Aduan extends Model
     {
         return $this->belongsTo(User::class, 'kepala_bidang_id');
     }
+
+    public function trackings()
+    {
+        return $this->hasMany(Tracking::class);
+    }
 }

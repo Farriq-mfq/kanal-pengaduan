@@ -26,21 +26,11 @@
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
             <ul class="nav nav-secondary">
-                <li class="nav-item active">
-                    <a data-bs-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
+                <li @class(['nav-item', 'active' => is_active('dashboard')])>
+                    <a href="{{ route('dashboard') }}">
                         <i class="fas fa-home"></i>
                         <p>Dashboard</p>
-                        <span class="caret"></span>
                     </a>
-                    <div class="collapse" id="dashboard">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="../demo1/index.html">
-                                    <span class="sub-item">Dashboard 1</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
                 </li>
                 <li class="nav-section">
                     <span class="sidebar-mini-icon">
@@ -55,18 +45,10 @@
                         {{-- <span class="badge badge-success">4</span> --}}
                     </a>
                 </li>
-                <li @class(['nav-item', 'active' => is_active('klasifikasi.index')])>
-                    <a href="{{ route('klasifikasi.index') }}">
-                        <i class="fas fa-book"></i>
-                        <p>Laporan Aduan</p>
-                        {{-- <span class="badge badge-success">4</span> --}}
-                    </a>
-                </li>
-                <li @class(['nav-item', 'active' => is_active('klasifikasi.index')])>
-                    <a href="{{ route('klasifikasi.index') }}">
+                <li @class(['nav-item', 'active' => is_active('tracking')])>
+                    <a href="{{ route('tracking') }}">
                         <i class="fas fa-chart-bar"></i>
                         <p>Tracking Aduan</p>
-                        {{-- <span class="badge badge-success">4</span> --}}
                     </a>
                 </li>
                 @can(['klasifikasi view', 'users view', 'roles view'])

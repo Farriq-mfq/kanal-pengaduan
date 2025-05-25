@@ -46,28 +46,51 @@
                 </li>
             @endif
         @endcan
-        {{-- <li>
-            <button class="dropdown-item fs-5 text-dark" title="Jawab Langsung">
-                <i class="fas fa-reply me-2"></i> Jawab Langsung
-            </button>
-        </li>
-        <li>
-            <button class="dropdown-item fs-5 text-warning" title="Perlu Tindakan">
-                <i class="fas fa-exclamation me-2"></i> Perlu Tindakan
-            </button>
-        </li>
-        <li>
-            <button class="dropdown-item fs-5 text-info" title="Tambahkan Hasil Mediasi">
-                <i class="fas fa-plus me-2"></i> Tambahkan Hasil Mediasi
-            </button>
-        </li> --}}
+        @can('aduan direct')
+            @if ($aduan->status_aduan === 'proses' && $aduan->kepala_bidang_id === null)
+                <li>
+                    <button class="dropdown-item fs-5 text-dark" title="Jawab Langsung" id="direct_aduan"
+                        data-id="{{ $aduan->id }}">
+                        <i class="fas fa-reply me-2"></i> Jawab Langsung
+                    </button>
+                </li>
+            @endif
+        @endcan
+        @can('kepala bidang')
+            @if ($aduan->kepala_bidang_id === auth()->user()->id)
+                <li>
+                    <button class="dropdown-item fs-5 text-warning" title="Tambahkan Hasil Telaah">
+                        <i class="fas fa-plus me-2"></i> Hasil Telaah
+                    </button>
+                </li>
+            @endif
+        @endcan
+        @can('aduan tindak_lanjut')
+            @if ($aduan->status_aduan === 'proses')
+                <li>
+                    <button class="dropdown-item fs-5 text-warning" title="Tambahkan Tindak Lanjut" id="tindak_lanjut"
+                        data-id="{{ $aduan->id }}">
+                        <i class="fas fa-plus me-2"></i> Tindak Lanjut
+                    </button>
+                </li>
+            @endif
+        @endcan
 
         <li>
-            <button class="dropdown-item fs-5 text-danger" title="Hapus Aduan" id="hapus_aduan"
-                data-id="{{ $aduan->id }}">
-                <i class="fas fa-trash me-2"></i> Hapus
+            <button class="dropdown-item fs-5 text-secondary" title="Tambahkan Hasil Mediasi">
+                <i class="fas fa-plus me-2"></i> Hasil Mediasi
             </button>
         </li>
+        @can('aduan delete')
+            @if ($aduan->status_aduan === 'menunggu')
+                <li>
+                    <button class="dropdown-item fs-5 text-danger" title="Hapus Aduan" id="hapus_aduan"
+                        data-id="{{ $aduan->id }}">
+                        <i class="fas fa-trash me-2"></i> Hapus
+                    </button>
+                </li>
+            @endif
+        @endcan
 
     </ul>
 </div>

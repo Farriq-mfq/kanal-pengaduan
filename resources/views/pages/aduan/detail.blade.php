@@ -33,7 +33,7 @@
                                         @if ($aduan->status_aduan == 'menunggu')
                                             <span><i class="fa fa-clock text-warning me-2"></i> Menunggu</span>
                                         @elseif ($aduan->status_aduan == 'proses')
-                                            <span><i class="fa fa-info text-warning me-2"></i> Proses</span>
+                                            <span><i class="fa fa-info text-primary me-2"></i> Proses</span>
                                         @elseif($aduan->status_aduan == 'ditolak')
                                             <span><i class="fa fa-times text-danger me-2"></i>Ditolak</span>
                                         @elseif($aduan->status_aduan == 'selesai')
@@ -81,8 +81,10 @@
                                     <td>
                                         @if ($aduan->kecepatan_tindak_lanjut)
                                             <span class="badge bg-primary">{{ $aduan->kecepatan_tindak_lanjut }}</span>
+                                        @else
+                                            -
                                         @endif
-                                        -
+
                                     </td>
                                 </tr>
                                 <tr>

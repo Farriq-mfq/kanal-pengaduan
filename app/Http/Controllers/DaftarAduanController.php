@@ -6,6 +6,7 @@ use App\DataTables\AduanDataTable;
 use App\Models\Aduan;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class DaftarAduanController extends Controller
@@ -40,10 +41,23 @@ class DaftarAduanController extends Controller
             ]
         ];
 
-        $aduan = Aduan::findOrFail($id);
+        $permission = auth()->user()->getPermission();
+        $searchPermission = $permission->contains('kepala bidang');
+        $role = auth()->user()->role;
+        if ($role != 'superAdmin') {
+            if ($searchPermission) {
+                $aduan = Aduan::where('kepala_bidang_id', auth()->user()->id)->findOrFail($id);
+            } else {
+                $aduan = Aduan::findOrFail($id);
+            }
+        } else {
+            $aduan = Aduan::findOrFail($id);
+        }
+
 
         return view('pages.aduan.detail', compact('breadcrumbs', 'aduan'));
     }
+
 
     public function destroy(string $id)
     {
@@ -53,6 +67,13 @@ class DaftarAduanController extends Controller
                 'success' => false,
                 'message' => 'Aduan tidak ditemukan',
             ], 404);
+
+        if ($aduan->status_aduan != 'menunggu') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus aduan',
+            ], 400);
+        }
         $aduan->delete();
 
         return response()->json([
@@ -69,26 +90,43 @@ class DaftarAduanController extends Controller
                 'message' => 'Invalid request',
             ], 503);
 
-        $aduan = Aduan::find($id);
-        if (!$aduan)
+        DB::beginTransaction();
+        try {
+            $aduan = Aduan::find($id);
+            if (!$aduan)
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Aduan tidak ditemukan',
+                ], 404);
+            if ($aduan->status_aduan != 'menunggu' && $aduan->status_aduan != 'ditolak')
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal menerima aduan',
+                ], 400);
+
+            $aduan->update([
+                'status_aduan' => 'proses',
+            ]);
+
+            // tracking aduan
+            $aduan->trackings()->create([
+                'status' => $aduan->status_aduan,
+                'keterangan' => 'Aduan diterima oleh ' . auth()->user()->name,
+                'step' => 'Diterima',
+            ]);
+            DB::commit();
+
             return response()->json([
-                'success' => false,
-                'message' => 'Aduan tidak ditemukan',
-            ], 404);
-        if ($aduan->status_aduan != 'menunggu' && $aduan->status_aduan != 'ditolak')
+                'success' => true,
+                'message' => 'Berhasil menerima aduan',
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'success' => false,
                 'message' => 'Gagal menerima aduan',
             ], 400);
-
-        $aduan->update([
-            'status_aduan' => 'proses',
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Berhasil menerima aduan',
-        ]);
+        }
     }
     public function reject(Request $request, string $id)
     {
@@ -98,26 +136,59 @@ class DaftarAduanController extends Controller
                 'message' => 'Invalid request',
             ], 503);
 
-        $aduan = Aduan::find($id);
-        if (!$aduan)
+        $validator = Validator::make($request->all(), [
+            'alasan_penolakan' => 'required',
+        ], [
+            'alasan_penolakan.required' => 'Alasan penolakan harus diisi',
+        ]);
+
+        if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => 'Aduan tidak ditemukan',
-            ], 404);
-        if ($aduan->status_aduan != 'menunggu' && $aduan->status_aduan != 'ditolak')
+                'message' => $validator->errors()->first(),
+            ], 400);
+        }
+
+        DB::beginTransaction();
+        try {
+            $aduan = Aduan::find($id);
+            if (!$aduan)
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Aduan tidak ditemukan',
+                ], 404);
+            if ($aduan->status_aduan != 'menunggu' && $aduan->status_aduan != 'ditolak')
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal menolak aduan',
+                ], 400);
+
+
+            $aduan->update([
+                'status_aduan' => 'ditolak',
+                'alasan_penolakan' => $request->alasan_penolakan
+            ]);
+
+            // tracking aduan
+            $aduan->trackings()->create([
+                'status' => $aduan->status_aduan,
+                'keterangan' => 'Aduan ditolak oleh ' . auth()->user()->name,
+                'step' => 'Ditolak',
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil menolak aduan',
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'success' => false,
                 'message' => 'Gagal menolak aduan',
             ], 400);
-
-        $aduan->update([
-            'status_aduan' => 'ditolak',
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Berhasil menolak aduan',
-        ]);
+        }
     }
 
     public function continue(Request $request, string $id)
@@ -169,6 +240,13 @@ class DaftarAduanController extends Controller
             'kepala_bidang_id' => $kepala_bidang->id,
         ]);
 
+        // tracking aduan
+        $aduan->trackings()->create([
+            'status' => $aduan->status_aduan,
+            'keterangan' => 'Aduan diteruskan oleh ' . auth()->user()->name . ' ke ' . $kepala_bidang->name . ' Bagian ' . $kepala_bidang->jabatan,
+            'step' => 'Diteruskan ke Kepala Bidang',
+        ]);
+
         return response()->json([
             'success' => true,
             'message' => 'Berhasil meneruskan aduan',
@@ -196,34 +274,193 @@ class DaftarAduanController extends Controller
             ], 400);
         }
 
-        $aduan = Aduan::find($id);
-        if (!$aduan)
+        DB::beginTransaction();
+        try {
+            $aduan = Aduan::find($id);
+            if (!$aduan)
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Aduan tidak ditemukan',
+                ], 404);
+            if ($aduan->status_aduan != 'proses')
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal memproses aduan',
+                ], 400);
+            $kepala_bidang = User::find(auth()->user()->id);
+            if (!$kepala_bidang)
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Kepala bidang tidak ditemukan',
+                ], 404);
+
+            $kepala_dinas = isset($request->kepala_dinas) && parse_boolean($request->kepala_dinas) && $request->kepala_dinas ? User::role('kepala dinas')->first() ? User::role('kepala dinas')->first() : null : null;
+            $aduan->update([
+                'verifikasi_kepala_bidang' => true,
+                'tanggal_tindak_lanjut_kepala_bidang' => now(),
+                'uraian_tindak_lanjut_kepala_bidang' => $request->uraian_verifikasi,
+                'kepala_dinas_id' => $kepala_dinas ? $kepala_dinas->id : null,
+                'status_aduan' => $kepala_dinas ? 'proses' : 'selesai',
+            ]);
+
+            // tracking aduan
+            $aduan->trackings()->create([
+                'status' => $aduan->status_aduan,
+                'keterangan' => 'Aduan diverifikasi oleh ' . $kepala_bidang->name . ' Bagian ' . $kepala_bidang->jabatan . ' (' . $aduan->tanggal_tindak_lanjut_kepala_bidang . ')',
+                'step' => $kepala_dinas ? 'Diverifikasi oleh Kepala Bidang dan diteruskan ke Kepala Dinas' : 'Diverifikasi oleh Kepala Bidang',
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Memverifikasi aduan',
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'success' => false,
-                'message' => 'Aduan tidak ditemukan',
-            ], 404);
-        if ($aduan->status_aduan != 'proses')
-            return response()->json([
-                'success' => false,
-                'message' => 'Gagal memproses aduan',
+                'message' => "Gagal memverifikasi aduan",
             ], 400);
-        $kepala_bidang = User::find(auth()->user()->id);
-        if (!$kepala_bidang)
-            return response()->json([
-                'success' => false,
-                'message' => 'Kepala bidang tidak ditemukan',
-            ], 404);
-
-        $aduan->update([
-            'verifikasi_kepala_bidang' => true,
-            'tanggal_tindak_lanjut_kepala_bidang' => now(),
-            'uraian_tindak_lanjut_kepala_bidang' => $request->uraian_verifikasi,
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Memverifikasi aduan',
-        ]);
+        }
 
     }
+
+    public function direct_answer(Request $request, string $id)
+    {
+        if (!$request->ajax())
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid request',
+            ], 503);
+
+        $validator = Validator::make($request->all(), [
+            'text_direct_pengaduan' => 'required',
+        ], [
+            'text_direct_pengaduan.required' => 'Jawaban pengaduan harus diisi',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->first(),
+            ], 400);
+        }
+
+        DB::beginTransaction();
+        try {
+            $aduan = Aduan::find($id);
+            if (!$aduan)
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Aduan tidak ditemukan',
+                ], 404);
+            if ($aduan->status_aduan != 'proses')
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal memproses aduan',
+                ], 400);
+
+
+            if ($aduan->kepala_bidang_id != null) {
+                $kepala_bidang = User::find($aduan->kepala_bidang);
+                if (!$kepala_bidang)
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Masih diproses oleh kepala bidang',
+                    ], 404);
+            }
+
+            $aduan->update([
+                'status_aduan' => 'selesai',
+                'text_direct_pengaduan' => $request->text_direct_pengaduan
+            ]);
+
+            // tracking aduan
+            $aduan->trackings()->create([
+                'status' => $aduan->status_aduan,
+                'keterangan' => 'Aduan selesai oleh ' . auth()->user()->name,
+                'step' => 'Dijawab Langsung',
+            ]);
+
+            DB::commit();
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil memberikan jawaban langsung',
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => "Gagal memproses aduan",
+            ], 400);
+        }
+    }
+
+    public function tindak_lanjut(Request $request, string $id)
+    {
+        if (!$request->ajax())
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid request',
+            ], 503);
+
+        $validator = Validator::make($request->all(), [
+            'tindak_lanjut' => 'required',
+            'kecepatan_tindak_lanjut' => 'required|in:Biasa,Segera,Amat Segera',
+        ], [
+            'tindak_lanjut.required' => 'Uraian tindak lanjut harus diisi',
+            'kecepatan_tindak_lanjut.required' => 'Kecepatan tindak lanjut harus diisi',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => $validator->errors()->first(),
+            ], 400);
+        }
+
+        DB::beginTransaction();
+        try {
+            $aduan = Aduan::find($id);
+            if (!$aduan)
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Aduan tidak ditemukan',
+                ], 404);
+            if ($aduan->status_aduan != 'proses')
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal memproses aduan',
+                ], 400);
+
+            $aduan->update([
+                'tindak_lanjut' => $request->tindak_lanjut,
+                'kecepatan_tindak_lanjut' => $request->kecepatan_tindak_lanjut
+            ]);
+
+            // tracking aduan
+            $aduan->trackings()->updateOrCreate([
+                'step' => 'Tindak Lanjut',
+            ], [
+                'status' => $aduan->status_aduan,
+                'keterangan' => auth()->user()->name . ' mengupdate tindak lanjut' . ' dengan kecepatan tindak lanjut ' . $request->kecepatan_tindak_lanjut,
+                'step' => 'Tindak Lanjut',
+            ]);
+
+            DB::commit();
+            return response()->json([
+                'success' => true,
+                'message' => 'Berhasil memberikan tindak lanjut',
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => "Gagal memproses aduan",
+            ], 400);
+        }
+    }
+
+
 }

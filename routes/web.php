@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DaftarAduanController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KlasifikasiController;
 use App\Http\Controllers\RolesManagementController;
 use App\Http\Controllers\TrackingController;
@@ -21,6 +22,7 @@ Route::prefix('kanal')->group(function () {
         Route::resource('users', UserManagementController::class);
         Route::resource('roles', RolesManagementController::class);
         Route::resource('klasifikasi', KlasifikasiController::class);
+        Route::resource("kategori", KategoriController::class);
         // aduan
         Route::prefix('aduan')->group(function () {
             Route::get('/', [DaftarAduanController::class, 'index'])->name('aduan.index');

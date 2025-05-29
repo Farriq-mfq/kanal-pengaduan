@@ -52,7 +52,19 @@ class PermissionSeeder extends Seeder
 
         ];
 
-        $allPermissions = array_merge($users, $roles, $klasifikasi, $kepala, $aduan);
+        $tim_penanganan = [
+            "tim penanganan"
+        ];
+
+        $kategori = [
+            "kategori view",
+            "kategori create",
+            "kategori update",
+            "kategori delete",
+        ];
+
+
+        $allPermissions = array_merge($users, $roles, $klasifikasi, $kepala, $aduan, $tim_penanganan, $kategori);
 
         foreach ($allPermissions as $permission) {
             Permission::create(['name' => $permission]);

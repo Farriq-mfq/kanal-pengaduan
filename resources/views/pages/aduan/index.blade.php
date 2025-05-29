@@ -40,7 +40,9 @@
         <div class="card-body">
             <div class="row gap-5">
                 <div class="col-12">
-                    {{ $dataTable->table() }}
+                    <div class="table-responsive">
+                        {{ $dataTable->table() }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -118,7 +120,7 @@
                                 <input class="form-check-input" type="checkbox" name="kepala_dinas"
                                     id="continueKepalaDinas">
                                 <label class="form-check-label" for="continueKepalaDinas">
-                                    Terukan Ke Kepala Dinas
+                                    Teruskan Ke Kepala Dinas
                                 </label>
                             </div>
                         </div>
@@ -171,13 +173,13 @@
                         <div class="modal-body">
                             <textarea class="form-control" name="tindak_lanjut" cols="30" rows="5"
                                 placeholder="Tuliskan Tindak Lanjut"></textarea>
-                                <div class="form-control">
-                                    <select name="kecepatan_tindak_lanjut" id="kecepatan_tindak_lanjut" class="form-control">
-                                        <option value="Biasa">Biasa</option>
-                                        <option value="Segera">Segera</option>
-                                        <option value="Amat Segera">Amat Segera</option>
-                                    </select>
-                                </div>
+                            <div class="form-control">
+                                <select name="kecepatan_tindak_lanjut" id="kecepatan_tindak_lanjut" class="form-control">
+                                    <option value="Biasa">Biasa</option>
+                                    <option value="Segera">Segera</option>
+                                    <option value="Amat Segera">Amat Segera</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary" id="btnTindakLanjut">

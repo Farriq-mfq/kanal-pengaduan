@@ -68,6 +68,15 @@
                         </a>
                     </li>
                 @endcan
+                @can('kategori view')
+                    <li @class(['nav-item', 'active' => is_active('kategori.index')])>
+                        <a href="{{ route('kategori.index') }}">
+                            <i class="fas fa-list-alt"></i>
+                            <p>Kategori</p>
+                            {{-- <span class="badge badge-success">4</span> --}}
+                        </a>
+                    </li>
+                @endcan
                 @can('users view')
                     <li @class(['nav-item', 'active' => is_active('users.index')])>
                         <a href="{{ route('users.index') }}">

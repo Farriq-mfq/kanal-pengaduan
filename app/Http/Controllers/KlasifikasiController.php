@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\DataTables\KlasifikasiDataTable;
 use App\Http\Requests\KlasifikasiRequest;
 use App\Models\Klasifikasi;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
@@ -40,7 +39,9 @@ class KlasifikasiController extends Controller implements HasMiddleware
     /**
      * Show the form for creating a new resource.
      */
-    public function create() {}
+    public function create()
+    {
+    }
 
     /**
      * Store a newly created resource in storage.

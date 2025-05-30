@@ -22,6 +22,7 @@ class User extends Authenticatable
         'username',
         'password',
         'jabatan',
+        'kategori_id'
     ];
 
     /**
@@ -65,4 +66,6 @@ class User extends Authenticatable
     {
         return $this->roles()->get()->pluck('permissions')->flatten()->pluck('name');
     }
+
+
 }

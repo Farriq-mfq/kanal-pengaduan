@@ -31,14 +31,14 @@
                         <div class="row">
                             <div class="col-12">
                                 <input type="hidden" name="_action" value="create">
-                                <div class="form-group @error('nama')
+                                <div class="form-group @error('name')
                                 has-error has-feedback
                             @enderror"
                                     style="text-align: left">
-                                    <label for="nama">Nama</label>
-                                    <input type="text" class="form-control" id="nama" name="nama"
-                                        value="{{ old('nama') }}" />
-                                    @error('nama')
+                                    <label for="name">Nama</label>
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        value="{{ old('name') }}" />
+                                    @error('name')
                                         <small class="form-text text-muted text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>

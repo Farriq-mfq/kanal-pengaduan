@@ -3,7 +3,7 @@
         aria-expanded="false">
         Pilih Tindakan
     </button>
-    <ul class="dropdown-menu" aria-labelledby="actionMenuAduan">
+    <ul class="dropdown-menu" aria-labelledby="actionMenuAduan" >
         <li>
             <a href="{{ route('aduan.detail', $aduan->id) }}" class="dropdown-item fs-5 text-info" title="Detail"><i
                     class="fas fa-arrow-right me-2"></i>Detail</a>
@@ -25,7 +25,7 @@
                 </li>
             @endif
         @endcan
-        @can('aduan continue')
+        @role('tim penanganan')
             @if ($aduan->status_aduan === 'proses' && $aduan->kepala_bidang_id == null)
                 <li id="teruskan_aduan" data-id="{{ $aduan->id }}">
                     <button class="dropdown-item fs-5 text-secondary" title="Teruskan">
@@ -33,8 +33,8 @@
                     </button>
                 </li>
             @endif
-        @endcan
-        @can('kepala bidang')
+        @endrole
+        @role('kepala bidang')
             @if (
                 $aduan->status_aduan === 'proses' &&
                     $aduan->kepala_bidang_id === auth()->user()->id &&
@@ -45,8 +45,8 @@
                     </button>
                 </li>
             @endif
-        @endcan
-        @can('aduan direct')
+        @endrole
+        @role('tim penanganan')
             @if ($aduan->status_aduan === 'proses' && $aduan->kepala_bidang_id === null)
                 <li>
                     <button class="dropdown-item fs-5 text-dark" title="Jawab Langsung" id="direct_aduan"
@@ -55,8 +55,8 @@
                     </button>
                 </li>
             @endif
-        @endcan
-        @can('kepala bidang')
+        @endrole
+        @role('kepala bidang')
             @if ($aduan->kepala_bidang_id === auth()->user()->id)
                 <li>
                     <button class="dropdown-item fs-5 text-warning" title="Tambahkan Hasil Telaah">
@@ -64,8 +64,8 @@
                     </button>
                 </li>
             @endif
-        @endcan
-        @can('aduan tindak_lanjut')
+        @endrole
+        @role('tim penanganan')
             @if ($aduan->status_aduan === 'proses')
                 <li>
                     <button class="dropdown-item fs-5 text-warning" title="Tambahkan Tindak Lanjut" id="tindak_lanjut"
@@ -74,13 +74,13 @@
                     </button>
                 </li>
             @endif
-        @endcan
+        @endrole
 
-        <li>
+        {{-- <li>
             <button class="dropdown-item fs-5 text-secondary" title="Tambahkan Hasil Mediasi">
                 <i class="fas fa-plus me-2"></i> Hasil Mediasi
             </button>
-        </li>
+        </li> --}}
         @can('aduan delete')
             @if ($aduan->status_aduan === 'menunggu')
                 <li>

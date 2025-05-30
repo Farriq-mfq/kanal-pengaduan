@@ -10,9 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->unsignedBigInteger("kategori_id")->nullable();
-            $table->foreign("kategori_id")->references("id")->on("kategoris")->cascadeOnDelete();
+        Schema::create('kategoris', function (Blueprint $table) {
+            $table->id();
+            $table->string("name")->unique();
+            $table->timestamps();
         });
     }
 
@@ -21,8 +22,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('kategoris');
     }
 };

@@ -26,15 +26,17 @@ class DatabaseSeeder extends Seeder
 
 
         $this->call([
+            RoleSeeder::class,
             PermissionSeeder::class
         ]);
 
         // all permissions
-        $permissios =  Permission::all();
+        $permissios = Permission::all();
 
         // primary role
-        $role = Role::create(['name' => 'superAdmin']);
+        $role = Role::where('name', 'superAdmin')->first();
         $role->givePermissionTo($permissios);
         $user->assignRole($role);
+
     }
 }

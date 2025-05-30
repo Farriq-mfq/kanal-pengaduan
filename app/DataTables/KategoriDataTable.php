@@ -76,7 +76,7 @@ class KategoriDataTable extends DataTable
                 ->searchable(false)
                 ->width(30)
                 ->addClass('text-center'),
-            Column::make('nama'),
+            Column::make('name'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

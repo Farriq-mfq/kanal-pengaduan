@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\UserDataTable;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UserRequest;
+use App\Models\Kategori;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -37,7 +38,8 @@ class UserManagementController extends Controller implements HasMiddleware
 
 
         $roles = Role::all();
-        return $dataTable->render('pages.users.index', compact('breadcrumbs', 'roles'));
+        $kategori = Kategori::all();
+        return $dataTable->render('pages.users.index', compact('breadcrumbs', 'roles', 'kategori'));
     }
 
     /**
@@ -56,14 +58,27 @@ class UserManagementController extends Controller implements HasMiddleware
         DB::beginTransaction();
         try {
             $role = Role::find($request->role_id);
-            if (!$role)
+            if (!$role) {
                 return back()->with('error', 'Role tidak ditemukan');
-            $role->users()->create([
-                'name' => $request->name,
-                'username' => $request->username,
-                'jabatan' => $request->jabatan,
-                'password' => bcrypt($request->password),
-            ]);
+            }
+            $roleName = $role->name;
+            if ($roleName == 'tim penanganan') {
+                $kategori = Kategori::findOrFail($request->kategori);
+                $role->users()->create([
+                    'name' => $request->name,
+                    'username' => $request->username,
+                    'jabatan' => $request->jabatan,
+                    'password' => bcrypt($request->password),
+                    'kategori_id' => $kategori->id
+                ]);
+            } else {
+                $role->users()->create([
+                    'name' => $request->name,
+                    'username' => $request->username,
+                    'jabatan' => $request->jabatan,
+                    'password' => bcrypt($request->password),
+                ]);
+            }
 
             DB::commit();
             return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan');

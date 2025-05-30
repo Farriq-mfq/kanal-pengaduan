@@ -8,8 +8,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class AduanDataTable extends DataTable
@@ -44,6 +42,9 @@ class AduanDataTable extends DataTable
             ->editColumn('verifikasi_kepala_dinas', function (Aduan $aduan) {
                 return view('pages.aduan.columns._verifikasi_kepala_dinas', compact('aduan'));
             })
+            ->editColumn('nama_pelapor', function (Aduan $aduan) {
+                return view('pages.aduan.columns._nama_pelapor', compact('aduan'));
+            })
             ->setRowId('id')->addIndexColumn();
     }
 
@@ -54,19 +55,22 @@ class AduanDataTable extends DataTable
      */
     public function query(Aduan $model): QueryBuilder
     {
-        $permission = auth()->user()->getPermission();
-        $searchPermission = $permission->contains('kepala bidang');
-        $kapaladinas = $permission->contains('kepala dinas');
         $role = auth()->user()->role;
         if ($role != 'superAdmin') {
-            if ($searchPermission) {
+            if ($role == 'kepala bidang') {
                 return $model
                     ->where('kepala_bidang_id', auth()->user()->id)
                     ->orderBy('id', 'desc')
                     ->newQuery();
-            } else if ($kapaladinas) {
+            } else if ($role == 'kepala dinas') {
                 return $model
                     ->where('kepala_dinas_id', auth()->user()->id)
+                    ->orderBy('id', 'desc')
+                    ->newQuery();
+            } else if ($role === 'tim penanganan') {
+                return $model
+                    ->whereNot('status_aduan', "menunggu")
+                    ->where('kategori_id', auth()->user()->kategori_id)
                     ->orderBy('id', 'desc')
                     ->newQuery();
             } else {
@@ -108,11 +112,9 @@ class AduanDataTable extends DataTable
      */
     public function getColumns(): array
     {
-        $permission = auth()->user()->getPermission();
-        $searchPermission = $permission->contains('kepala bidang');
         $role = auth()->user()->role;
         if ($role != 'superAdmin') {
-            if ($searchPermission) {
+            if ($role == 'kepala bidang') {
                 return [
                     Column::computed('DT_RowIndex')
                         ->title('#')
@@ -121,8 +123,8 @@ class AduanDataTable extends DataTable
                         ->width(30)
                         ->addClass('text-center'),
                     Column::make('tanggal_pengaduan')->title('Tanggal Pengaduan')->width(100),
+                    Column::make('nama_pelapor')->title('Nama Pelapor')->width(100),
                     Column::make('nomer_aduan')->title('Nomor Aduan')->width(100),
-                    Column::make('tanggal_pengaduan')->title('Nama Pelapor')->width(150),
                     Column::make('uraian_pengaduan')->title('Uraian Aduan'),
                     Column::make('verifikasi_kepala_bidang')->title('Status Verifikasi Kepala Bidang'),
                     Column::make('verifikasi_kepala_dinas')->title('Status Verifikasi Kepala Dinas'),
@@ -141,8 +143,8 @@ class AduanDataTable extends DataTable
                         ->width(30)
                         ->addClass('text-center'),
                     Column::make('tanggal_pengaduan')->title('Tanggal Pengaduan')->width(100),
+                    Column::make('nama_pelapor')->title('Nama Pelapor')->width(100),
                     Column::make('nomer_aduan')->title('Nomor Aduan')->width(100),
-                    Column::make('tanggal_pengaduan')->title('Nama Pelapor')->width(150),
                     Column::make('uraian_pengaduan')->title('Uraian Aduan'),
                     Column::make('verifikasi_kepala_bidang')->title('Status Verifikasi Kepala Bidang'),
                     Column::make('verifikasi_kepala_dinas')->title('Status Verifikasi Kepala Dinas'),
@@ -162,8 +164,8 @@ class AduanDataTable extends DataTable
                     ->width(30)
                     ->addClass('text-center'),
                 Column::make('tanggal_pengaduan')->title('Tanggal Pengaduan')->width(100),
+                Column::make('nama_pelapor')->title('Nama Pelapor')->width(100),
                 Column::make('nomer_aduan')->title('Nomor Aduan')->width(100),
-                Column::make('tanggal_pengaduan')->title('Nama Pelapor')->width(150),
                 Column::make('uraian_pengaduan')->title('Uraian Aduan'),
                 Column::computed('action')
                     ->exportable(false)

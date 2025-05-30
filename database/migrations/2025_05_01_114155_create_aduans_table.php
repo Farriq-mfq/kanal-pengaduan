@@ -1,11 +1,11 @@
 <?php
 
+use App\Models\Kategori;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('aduans', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("kategori_id");
+            $table->foreign("kategori_id")->references("id")->on("kategoris")->cascadeOnDelete();
             $table->text("uraian_pengaduan"); // ringkasan atau uraian pengaduan
             $table->string("nomer_aduan")->unique();
             $table->text("text_direct_pengaduan")->nullable(); // jika jawab langsung maka true dan langsung di kerim ke email

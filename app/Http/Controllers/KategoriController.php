@@ -53,7 +53,7 @@ class KategoriController extends Controller implements HasMiddleware
         DB::beginTransaction();
         try {
             Kategori::create([
-                'nama' => $request->nama,
+                'name' => $request->name,
             ]);
             DB::commit();
             return redirect()->route('kategori.index')->with('success', 'Kategori berhasil ditambahkan');
@@ -82,9 +82,19 @@ class KategoriController extends Controller implements HasMiddleware
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(KategoriRequest $request, string $id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            Kategori::find($id)->update([
+                'name' => $request->name,
+            ]);
+            DB::commit();
+            return redirect()->route('kategori.index')->with('success', 'Kategori berhasil ditambahkan');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('kategori.index')->with('error', $e->getMessage());
+        }
     }
 
     /**
@@ -92,6 +102,14 @@ class KategoriController extends Controller implements HasMiddleware
      */
     public function destroy(string $id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            Kategori::find($id)->delete();
+            DB::commit();
+            return redirect()->route('kategori.index')->with('success', 'Kategori berhasil dihapus');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('kategori.index')->with('error', 'Kategori gagal dihapus');
+        }
     }
 }

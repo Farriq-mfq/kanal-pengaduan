@@ -48,7 +48,7 @@
         </div>
     </div>
 
-    @can('aduan continue')
+    @role('tim penanganan')
         <div class="modal fade" tabindex="-1" id="modalTeruskan">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -76,8 +76,8 @@
                 </div>
             </div>
         </div>
-    @endcan
-    @can('aduan reject')
+    @endrole
+    @role('tim penanganan')
         <div class="modal fade" tabindex="-1" id="modalRejectAduan">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -101,8 +101,8 @@
                 </div>
             </div>
         </div>
-    @endcan
-    @can('kepala bidang')
+    @endrole
+    @role('tim penanganan')
         <div class="modal fade" tabindex="-1" id="modalVerifikasiKepalaBidang">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -133,8 +133,8 @@
                 </div>
             </div>
         </div>
-    @endcan
-    @can('aduan direct')
+    @endrole
+    @role('tim penanganan')
         <div class="modal fade" tabindex="-1" id="modalDirectAduan">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -157,9 +157,9 @@
                 </div>
             </div>
         </div>
-    @endcan
+    @endrole
 
-    @can('aduan tindak_lanjut')
+    @role('tim penanganan')
         <div class="modal fade" tabindex="-1" id="modalTindakLanjut">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -190,7 +190,7 @@
                 </div>
             </div>
         </div>
-    @endcan
+    @endrole
 
     @push('scripts')
         {{ $dataTable->scripts(attributes: ['type' => 'module']) }}

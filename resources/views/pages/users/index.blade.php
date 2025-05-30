@@ -82,6 +82,22 @@
                                     <small class="form-text text-muted text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
+                            <div class="form-group @error('kategori')
+                                has-error has-feedback
+                            @enderror"
+                                style="text-align: left">
+                                <label for="kategori">Kategori</label>
+                                <select name="kategori" id="kategori" class="form-control">
+                                    <option value="" selected>-- Pilih Kategori -- (Jika User Sebagai Tim Penanganan)</option>
+                                    @foreach ($kategori as $kt)
+                                        <option value="{{ $kt->id }}" @selected($kt->id == old('kategori'))>
+                                            {{ $kt->nama }}</option>
+                                    @endforeach
+                                </select>
+                                @error('kategori')
+                                    <small class="form-text text-muted text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
                             <div class="form-group @error('role_id')
                                 has-error has-feedback
                             @enderror"

@@ -10,7 +10,7 @@ use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
 
 
-include 'front.php';
+include_once __DIR__ . '/front.php';
 
 Route::prefix('kanal')->group(function () {
     Route::middleware('auth')->group(function () {

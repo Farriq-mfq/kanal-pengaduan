@@ -10,11 +10,13 @@
 
         <nav id="navmenu" class="navmenu">
             <ul>
-                <li><a href="{{ route('home') }}" class="{{ is_active('home') ? 'active' : '' }}">Tracking Aduan<br></a>
+                <li><a href="{{ route('home') }}" class="{{ is_active('home') ? 'active' : '' }}">Beranda<br></a>
                 </li>
+                {{-- <li><a href="{{ route('home') }}" class="{{ is_active('home') ? 'active' : '' }}">Tracking Aduan<br></a>
+                </li> --}}
                 <li><a href="{{ route('about') }}" class="{{ is_active('about') ? 'active' : '' }}">Tentang
                         {{ config('app.name') }}</a></li>
-                <li><a href="{{ route('home') }}" class="{{ is_active('about') ? 'active' : '' }}">Aduan Saya</a></li>
+                {{-- <li><a href="{{ route('home') }}" class="{{ is_active('about') ? 'active' : '' }}">Aduan Saya</a></li> --}}
                 @if (auth('masyarakat')->check())
                     <li class="dropdown"><a href="#"><span>{{ auth('masyarakat')->user()->name }}</span> <i
                                 class="bi bi-chevron-down toggle-dropdown"></i></a>
@@ -41,12 +43,6 @@
                 Login / Register
             </a>
         @endif
-        <li class="p-2">
-            <form action="{{ route('front.logout') }}" method="POST">
-                @csrf
-                <button class="btn btn-pr">Logout</button>
-            </form>
-        </li>
 
     </div>
 </header>

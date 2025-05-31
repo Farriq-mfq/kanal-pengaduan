@@ -24,9 +24,24 @@ class RegisterRequest extends FormRequest
         return [
             "nik" => ['required', 'string', 'max:255'],
             "name" => ['required', 'string', 'max:255'],
-            "email" => ['required', 'email', 'max:255'],
+            "email" => ['required', 'email', 'max:255', 'unique:masyarakats,email'],
             "password" => ['required', 'string', 'min:8', 'confirmed'],
             "password_confirmation" => ['required', 'string', 'min:8'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'nik.required' => 'NIK wajib diisi',
+            'name.required' => 'Nama wajib diisi',
+            'email.required' => 'Email wajib diisi',
+            'password.required' => 'Password wajib diisi',
+            'password.min' => 'Password minimal 8 karakter',
+            'password.confirmed' => 'Password tidak sama',
+            'password_confirmation.required' => 'Konfirmasi Password wajib diisi',
+            'password_confirmation.min' => 'Konfirmasi Password minimal 8 karakter',
+            'email.unique' => 'Email sudah terdaftar',
         ];
     }
 }

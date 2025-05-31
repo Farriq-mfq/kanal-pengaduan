@@ -14,13 +14,39 @@
                 </li>
                 <li><a href="{{ route('about') }}" class="{{ is_active('about') ? 'active' : '' }}">Tentang
                         {{ config('app.name') }}</a></li>
+                <li><a href="{{ route('home') }}" class="{{ is_active('about') ? 'active' : '' }}">Aduan Saya</a></li>
+                @if (auth('masyarakat')->check())
+                    <li class="dropdown"><a href="#"><span>{{ auth('masyarakat')->user()->name }}</span> <i
+                                class="bi bi-chevron-down toggle-dropdown"></i></a>
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    Profile
+                                </a>
+                            </li>
+                            <li class="p-2">
+                                <form action="{{ route('front.logout') }}" method="POST">
+                                    @csrf
+                                    <button class="btn btn-pr">Logout</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
-
-        <a class="btn-getstarted" href="#about">
-            Login / Register
-        </a>
+        @if (!auth('masyarakat')->check())
+            <a class="btn-getstarted" href="{{ route('front.login') }}">
+                Login / Register
+            </a>
+        @endif
+        <li class="p-2">
+            <form action="{{ route('front.logout') }}" method="POST">
+                @csrf
+                <button class="btn btn-pr">Logout</button>
+            </form>
+        </li>
 
     </div>
 </header>

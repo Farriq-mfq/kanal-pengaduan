@@ -21,6 +21,12 @@ class Masyarakat extends Authenticatable
         'name',
         'email',
         'password',
+        'nik',
+        'alamat',
+        'phone',
+        'verification_token',
+        'verified_at',
+        'verification_token_expires_at',
     ];
 
     /**

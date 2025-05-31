@@ -76,14 +76,11 @@
 
 <body class="index-page">
 
-    @include('layouts.front_partials._header')
-
+    @yield('header')
     <main class="main">
         @yield('content')
     </main>
-
-    @include('layouts.front_partials._footer')
-
+    @yield('footer')
     <!-- Scroll Top -->
     <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>

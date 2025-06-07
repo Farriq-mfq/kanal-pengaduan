@@ -36,14 +36,17 @@ class AduanDataTable extends DataTable
                 if ($aduan->status_aduan === 'selesai')
                     return 'status-background-success';
             })
-            ->editColumn('verifikasi_kepala_bidang', function (Aduan $aduan) {
-                return view('pages.aduan.columns._verifikasi_kepala_bidang', compact('aduan'));
-            })
+            // ->editColumn('verifikasi_kepala_bidang', function (Aduan $aduan) {
+            //     return view('pages.aduan.columns._verifikasi_kepala_bidang', compact('aduan'));
+            // })
             ->editColumn('verifikasi_kepala_dinas', function (Aduan $aduan) {
                 return view('pages.aduan.columns._verifikasi_kepala_dinas', compact('aduan'));
             })
             ->editColumn('nama_pelapor', function (Aduan $aduan) {
                 return view('pages.aduan.columns._nama_pelapor', compact('aduan'));
+            })
+            ->editColumn('status_tindak_lanjut_kepala_bidang', function (Aduan $aduan) {
+                return view('pages.aduan.columns._status_verifikasi_kepala_bidang', compact('aduan'));
             })
             ->setRowId('id')->addIndexColumn();
     }
@@ -126,7 +129,27 @@ class AduanDataTable extends DataTable
                     Column::make('nama_pelapor')->title('Nama Pelapor')->width(100),
                     Column::make('nomer_aduan')->title('Nomor Aduan')->width(100),
                     Column::make('uraian_pengaduan')->title('Uraian Aduan'),
-                    Column::make('verifikasi_kepala_bidang')->title('Status Verifikasi Kepala Bidang'),
+                    Column::make('status_tindak_lanjut_kepala_bidang')->title('Status Verifikasi Kepala Bidang'),
+                    Column::make('verifikasi_kepala_dinas')->title('Status Verifikasi Kepala Dinas'),
+                    Column::computed('action')
+                        ->exportable(false)
+                        ->printable(false)
+                        ->width(60)
+                        ->addClass('text-center'),
+                ];
+            } else if ($role == 'tim penanganan') {
+                return [
+                    Column::computed('DT_RowIndex')
+                        ->title('#')
+                        ->orderable(false)
+                        ->searchable(false)
+                        ->width(30)
+                        ->addClass('text-center'),
+                    Column::make('tanggal_pengaduan')->title('Tanggal Pengaduan')->width(100),
+                    Column::make('nama_pelapor')->title('Nama Pelapor')->width(100),
+                    Column::make('nomer_aduan')->title('Nomor Aduan')->width(100),
+                    Column::make('uraian_pengaduan')->title('Uraian Aduan'),
+                    Column::make('status_tindak_lanjut_kepala_bidang')->title('Status Verifikasi Kepala Bidang'),
                     Column::make('verifikasi_kepala_dinas')->title('Status Verifikasi Kepala Dinas'),
                     Column::computed('action')
                         ->exportable(false)

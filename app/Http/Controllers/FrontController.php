@@ -15,4 +15,9 @@ class FrontController extends Controller
     {
         return view('front.about');
     }
+
+    public function panduan_kategori()
+    {
+        return view('front.panduan_kategori');
+    }
 }

@@ -27,14 +27,19 @@ Route::prefix('kanal')->group(function () {
         Route::prefix('aduan')->group(function () {
             Route::get('/', [DaftarAduanController::class, 'index'])->name('aduan.index');
             Route::get('/{id}/detail', [DaftarAduanController::class, 'show'])->name('aduan.detail');
+            // ADMIN
             Route::delete('/{id}/destroy', [DaftarAduanController::class, 'destroy'])->name('aduan.destroy')->middleware('permission:aduan destroy');
             Route::patch('/{id}/accept', [DaftarAduanController::class, 'accept'])->name('aduan.accept')->middleware('permission:aduan accept');
             Route::patch('/{id}/reject', [DaftarAduanController::class, 'reject'])->name('aduan.reject')->middleware('permission:aduan reject');
+            // TIM PENANGANAN
             Route::patch('/{id}/continue', [DaftarAduanController::class, 'continue'])->name('aduan.continue')->middleware('role:tim penanganan');
             Route::patch('/{id}/direct', [DaftarAduanController::class, 'direct_answer'])->name('aduan.direct')->middleware('role:tim penanganan');
-            Route::patch('/{id}/tindak_lanjut', [DaftarAduanController::class, 'tindak_lanjut'])->name('aduan.tindak_lanjut')->middleware('permission:aduan tindak_lanjut');
-
+            Route::patch('/{id}/tindak_lanjut', [DaftarAduanController::class, 'tindak_lanjut'])->name('aduan.tindak_lanjut')->middleware('role:tim penanganan');
+            Route::patch('/{id}/telaah', [DaftarAduanController::class, 'telaah'])->name('aduan.telaah')->middleware('role:tim penanganan');
+            Route::get('/{id}/kepala_bidang', [DaftarAduanController::class, 'kepala_bidang'])->name('aduan.kepala_bidang')->middleware('role:tim penanganan');
+            // KEPALA BIDANG
             Route::patch('/{id}/verify/kepala_bidang', [DaftarAduanController::class, 'verify_kepala_bidang'])->name('aduan.verify_kepala_bidang')->middleware('role:kepala bidang');
+            Route::patch('/{id}/revisi/kepala_bidang', [DaftarAduanController::class, 'revisi_tindak_lanjut'])->name('aduan.revisi_tindak_lanjut')->middleware('role:kepala bidang');
         });
 
         Route::get('/tracking', [TrackingController::class, 'tracking'])->name('tracking');

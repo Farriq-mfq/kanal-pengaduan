@@ -37,6 +37,8 @@ class Aduan extends Model
         'tanggapan',
         'status_penyelesaian',
         'is_view',
+        'status_tindak_lanjut_kepala_bidang',
+        'kategori_id'
     ];
 
 
@@ -48,5 +50,15 @@ class Aduan extends Model
     public function trackings()
     {
         return $this->hasMany(Tracking::class);
+    }
+
+    public function revisi()
+    {
+        return $this->hasMany(Revisi::class);
+    }
+
+    public function masyarakat()
+    {
+        return $this->belongsTo(Masyarakat::class, 'masyarakat_id');
     }
 }

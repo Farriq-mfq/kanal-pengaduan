@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\FrontAduanController;
 use App\Http\Controllers\FrontAuthController;
 use App\Http\Controllers\FrontController;
 
 Route::get('/', [FrontController::class, 'index'])->name('home');
 Route::get('/about', [FrontController::class, 'about'])->name('about');
+Route::get('/panduan-kategori', [FrontController::class, 'panduan_kategori'])->name('panduan.kategori');
 
 
 Route::get("/login", [FrontAuthController::class, "index"])->name("front.login")->middleware("guest_masyarakat");
@@ -14,3 +16,10 @@ Route::post("/register", [FrontAuthController::class, "register_store"])->name("
 Route::get("/verify/{token}", [FrontAuthController::class, "verify"])->name("front.verify")->middleware("guest_masyarakat");
 
 Route::post("/logout", [FrontAuthController::class, "logout"])->name("front.logout")->middleware("auth_masyarakat");
+
+
+Route::prefix('aduan')->group(function () {
+    Route::post("/store", [FrontAduanController::class, "store"])->name("front.aduan.store");
+    Route::get("/tracking", [FrontAduanController::class, "tracking"])->name("front.aduan.tracking")->middleware("auth_masyarakat");
+    Route::get("/revisi/{id}", [FrontAduanController::class, "revisi"])->name("front.aduan.revisi");
+});

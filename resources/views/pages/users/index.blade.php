@@ -88,10 +88,11 @@
                                 style="text-align: left">
                                 <label for="kategori">Kategori</label>
                                 <select name="kategori" id="kategori" class="form-control">
-                                    <option value="" selected>-- Pilih Kategori -- (Jika User Sebagai Tim Penanganan)</option>
+                                    <option value="" selected>-- Pilih Kategori -- (Jika User Sebagai Tim
+                                        Penanganan)</option>
                                     @foreach ($kategori as $kt)
                                         <option value="{{ $kt->id }}" @selected($kt->id == old('kategori'))>
-                                            {{ $kt->nama }}</option>
+                                            {{ $kt->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('kategori')

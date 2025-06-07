@@ -33,7 +33,11 @@
 
     <!-- Main CSS File -->
     <link href="{{ asset('front/assets/css/main.css') }}" rel="stylesheet">
+    <link href="{{ asset('front/assets/vendor/select2/css/select2.min.css') }}" rel="stylesheet">
     <script src="{{ asset('assets/js/plugin/webfont/webfont.min.js') }}"></script>
+    {{-- sweetalert --}}
+    <link rel="stylesheet" href="{{ asset('front/assets/vendor/sweetalert/sweetalert2.min.css') }}">
+    <script src="{{ asset('front/assets/vendor/sweetalert/sweetalert2.all.min.js') }}"></script>
     <script>
         WebFont.load({
             google: {
@@ -97,6 +101,8 @@
     <script src="{{ asset('front/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
     <script src="{{ asset('front/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
     <script src="{{ asset('front/assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ asset('front/assets/vendor/select2/js/select2.full.min.js') }}"></script>
 
     <!-- Main JS File -->
     <script src="{{ asset('front/assets/js/main.js') }}"></script>

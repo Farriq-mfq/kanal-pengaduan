@@ -16,11 +16,15 @@
                 </li> --}}
                 <li><a href="{{ route('about') }}" class="{{ is_active('about') ? 'active' : '' }}">Tentang
                         {{ config('app.name') }}</a></li>
-                {{-- <li><a href="{{ route('home') }}" class="{{ is_active('about') ? 'active' : '' }}">Aduan Saya</a></li> --}}
+                <li><a href="{{ route('panduan.kategori') }}"
+                        class="{{ is_active('panduan.kategori') ? 'active' : '' }}">Panduan
+                        Kategori</a></li>
                 @if (auth('masyarakat')->check())
                     <li class="dropdown"><a href="#"><span>{{ auth('masyarakat')->user()->name }}</span> <i
                                 class="bi bi-chevron-down toggle-dropdown"></i></a>
                         <ul>
+                            <li><a href="{{ route('home') }}" class="{{ is_active('about') ? 'active' : '' }}">Aduan
+                                    Saya</a></li>
                             <li>
                                 <a href="#">
                                     Profile

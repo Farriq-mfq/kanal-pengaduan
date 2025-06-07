@@ -30,9 +30,10 @@ return new class extends Migration {
             // kepala bidang
             $table->unsignedBigInteger("kepala_bidang_id")->nullable();
             $table->foreign("kepala_bidang_id")->references("id")->on("users");
-            $table->date('tanggal_tindak_lanjut_kepala_bidang')->nullable();
+            $table->date('tanggal_tindak_lanjut_kepala_bidang')->nullable(); // hapus
             $table->boolean("verifikasi_kepala_bidang")->default(0);
-            $table->string('uraian_tindak_lanjut_kepala_bidang')->nullable();
+            $table->string('uraian_tindak_lanjut_kepala_bidang')->nullable(); // hapus
+            $table->enum("status_tindak_lanjut_kepala_bidang", ["menunggu", "revisi", "acc"])->default("menunggu");
             // hasil telaah
             $table->text("telaah_aduan")->nullable();
             // kepala dinas

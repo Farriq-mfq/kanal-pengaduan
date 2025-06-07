@@ -88,7 +88,6 @@
 <h4 class="mt-5">
     Timeline
 </h4>
-<!-- Timeline 1 - Bootstrap Brain Component -->
 <section class="bsb-timeline-1 py-5 py-xl-8">
     <div class="row">
         <div class="col-10 col-md-8 col-xl-6">

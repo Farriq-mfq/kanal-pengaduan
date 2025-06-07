@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Tracking;
+use App\Observers\TrackingObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -24,5 +26,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::before(function ($user, $ability) {
             return $user->hasRole('superAdmin') ? true : null;
         });
+        Tracking::observe(TrackingObserver::class);
     }
 }

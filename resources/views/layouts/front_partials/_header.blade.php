@@ -23,7 +23,7 @@
                     <li class="dropdown"><a href="#"><span>{{ auth('masyarakat')->user()->name }}</span> <i
                                 class="bi bi-chevron-down toggle-dropdown"></i></a>
                         <ul>
-                            <li><a href="{{ route('home') }}" class="{{ is_active('about') ? 'active' : '' }}">Aduan
+                            <li><a href="{{ route(name: 'front.aduan') }}" class="{{ is_active('front.aduan') ? 'active' : '' }}">Aduan
                                     Saya</a></li>
                             <li>
                                 <a href="#">

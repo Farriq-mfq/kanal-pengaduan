@@ -40,10 +40,12 @@ Route::prefix('kanal')->group(function () {
             // KEPALA BIDANG
             Route::patch('/{id}/verify/kepala_bidang', [DaftarAduanController::class, 'verify_kepala_bidang'])->name('aduan.verify_kepala_bidang')->middleware('role:kepala bidang');
             Route::patch('/{id}/revisi/kepala_bidang', [DaftarAduanController::class, 'revisi_tindak_lanjut'])->name('aduan.revisi_tindak_lanjut')->middleware('role:kepala bidang');
+            Route::patch('/{id}/verify/kepala_dinas', [DaftarAduanController::class, 'verify_kepala_dinas'])->name('aduan.verify_kepala_dinas')->middleware('role:kepala dinas');
         });
 
         Route::get('/tracking', [TrackingController::class, 'tracking'])->name('tracking');
         Route::post('/tracking', [TrackingController::class, 'json_tracking_result'])->name('tracking.json_tracking_result');
+
 
     });
 

@@ -86,6 +86,18 @@
                     }
                 })
             })
+
+            const loadKategori = () => {
+                $.ajax({
+                    url: "{{ route('front.aduan.kategori') }}",
+                    type: "GET",
+                    dataType: "json",
+                    success: function(response) {
+                        $('#kategori').html(response.data);
+                    }
+                })
+            }
+            loadKategori()
         })
     </script>
 @endpush

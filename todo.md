@@ -17,10 +17,15 @@
  <!-- form aduan --> (done)
  <!-- tracking aduan --> (done)
  
- <!-- verifikasi keplaa dinas  -->
-<!-- detail aduan tambah history revisi -->
 
+ <!-- list riwayat aduan --> (done)
+ <!-- verifikasi keplaa dinas  --> (done)
+ 
+ <!-- tracking bagian admin di perbaiki -->
+ <!-- detail aduan tambah history revisi (admin) -->
  <!-- rekap laporan  tanggal awal dan akhir dan memilih status--> 
  <!-- reset password penggunaa -->
+ <!-- profile -->
+ 
 
 

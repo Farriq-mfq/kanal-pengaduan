@@ -88,7 +88,7 @@ class KlasifikasiController extends Controller implements HasMiddleware
                 'klasifikasi' => $request->name,
             ]);
             DB::commit();
-            return redirect()->route('klasifikasi.index')->with('success', 'Klasifikasi berhasil ditambahkan');
+            return redirect()->route('klasifikasi.index')->with('success', 'Klasifikasi berhasil diupdate');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->route('klasifikasi.index')->with('error', $e->getMessage());

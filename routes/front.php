@@ -19,7 +19,11 @@ Route::post("/logout", [FrontAuthController::class, "logout"])->name("front.logo
 
 
 Route::prefix('aduan')->group(function () {
+    Route::get('/', [FrontAduanController::class, 'index'])->name('front.aduan');
+    Route::get('/datatable', [FrontAduanController::class, 'listAduan'])->name('front.aduan.data');
     Route::post("/store", [FrontAduanController::class, "store"])->name("front.aduan.store");
     Route::get("/tracking", [FrontAduanController::class, "tracking"])->name("front.aduan.tracking")->middleware("auth_masyarakat");
     Route::get("/revisi/{id}", [FrontAduanController::class, "revisi"])->name("front.aduan.revisi");
+    Route::get('/kategori', [FrontAduanController::class, 'kategori'])->name('front.aduan.kategori');
 });
+

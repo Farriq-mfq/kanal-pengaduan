@@ -28,6 +28,9 @@ class UserDataTable extends DataTable
             ->addColumn('role', function (User $user) {
                 return $user->role ?? "-";
             })
+            ->editColumn('kategori', function (User $user) {
+                return $user->kateogri ? $user->kateogri->name : "-";
+            })
             ->addColumn('action', function (User $user) use ($roles) {
                 return view('pages.users.columns._actions', compact('user', 'roles'));
             })
@@ -82,6 +85,7 @@ class UserDataTable extends DataTable
             Column::make('username'),
             Column::make('role'),
             Column::make('jabatan'),
+            Column::make('kategori'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

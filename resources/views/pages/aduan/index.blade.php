@@ -158,7 +158,7 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="kecepatan_tindak_lanjut">Pilih Kepala Bidang Yang Menindaklanjuti</label>
+                                <label for="kecepatan_tindak_lanjut">Kecepatan Tindak Lanjut Aduan</label>
                                 <div class="form-control" id="kecepatan_tindak_lanjut">
                                     <select name="kecepatan_tindak_lanjut" id="kecepatan_tindak_lanjut"
                                         class="form-control">
@@ -546,7 +546,7 @@
                                 $("select[name=kepala_bidang_id]").val(res.data.kepala_bidang_id)
                                 if (res.data.kepala_bidang_id) {
                                     button.html("Update Tindak Lanjut")
-                                }else{
+                                } else {
                                     button.html("Tindak Lanjuti")
                                 }
                             }
@@ -683,6 +683,36 @@
                             button.attr('disabled', false)
                             button.html('Revisi Tindak Lanjut')
                         },
+                    })
+                })
+
+                $(document).on("click", "#verifikasi_kepala_dinas", function() {
+                    swal({
+                        title: "Yakin ?",
+                        text: "Anda akan memverifikasi aduan ini ?",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: false,
+                        buttons: ["Batal", "Verifikasi"],
+                    }).then((accept) => {
+                        if (accept) {
+                            $.ajax({
+                                method: "PATCH",
+                                url: "{{ route('aduan.verify_kepala_dinas', ':id') }}".replace(':id', $(this).data('id')),
+                                data: {
+                                    _token: "{{ csrf_token() }}"
+                                },
+                                success: function(res) {
+                                    if (res.success) {
+                                        swal("Berhasil", res.message, "success");
+                                        location.reload();
+                                    }
+                                },
+                                error: function(err) {
+                                    swal("Gagal", err.responseJSON.message, "error");
+                                }
+                            })
+                        }
                     })
                 })
             })

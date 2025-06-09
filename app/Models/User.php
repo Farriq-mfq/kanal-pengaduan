@@ -67,5 +67,8 @@ class User extends Authenticatable
         return $this->roles()->get()->pluck('permissions')->flatten()->pluck('name');
     }
 
-
+    public function kateogri()
+    {
+        return $this->belongsTo(Kategori::class, 'kategori_id');
+    }
 }

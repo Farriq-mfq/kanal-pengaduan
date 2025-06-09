@@ -9,4 +9,14 @@ class Kategori extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function aduan()
+    {
+        return $this->hasMany(Aduan::class);
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
 }

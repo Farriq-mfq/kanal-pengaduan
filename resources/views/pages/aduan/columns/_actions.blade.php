@@ -104,5 +104,14 @@
             @endif
         @endcan
 
+        @role('kepala dinas')
+            @if ($aduan->status_aduan === 'proses' && $aduan->kepala_bidang_id !== null)
+                <li>
+                    <button class="dropdown-item fs-5 text-success" id="verifikasi_kepala_dinas" title="Verifikasi"
+                        data-id="{{ $aduan->id }}"><i class="fas fa-edit me-2"></i>Verifikasi</button>
+                </li>
+            @endif
+        @endrole
+
     </ul>
 </div>

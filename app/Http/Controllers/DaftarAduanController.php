@@ -298,6 +298,7 @@ class DaftarAduanController extends Controller
                 ], 404);
 
             $kepala_dinas = isset($request->kepala_dinas) && parse_boolean($request->kepala_dinas) && $request->kepala_dinas ? User::role('kepala dinas')->first() ? User::role('kepala dinas')->first() : null : null;
+
             $aduan->update([
                 'verifikasi_kepala_bidang' => true,
                 'tanggal_tindak_lanjut_kepala_bidang' => now(),
@@ -620,6 +621,54 @@ class DaftarAduanController extends Controller
                 'kecepatan_tindak_lanjut' => $aduan->kecepatan_tindak_lanjut,
                 'kepala_bidang_id' => $aduan->kepala_bidang_id
             ]
+        ]);
+    }
+
+
+    public function verify_kepala_dinas($id, Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid request',
+            ], 503);
+        }
+        $aduan = Aduan::find($id);
+        if (!$aduan)
+            return response()->json([
+                'success' => false,
+                'message' => 'Aduan tidak ditemukan',
+            ], 404);
+
+        if ($aduan->status_aduan != 'proses')
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memproses aduan',
+            ], 400);
+
+        if ($aduan->kepala_dinas_id != auth()->user()->id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memproses aduan',
+            ], 400);
+        }
+
+        $aduan->update([
+            'tanggal_tindak_lanjut_kepala_dinas' => now(),
+            'verifikasi_kepala_dinas' => true,
+            'status_aduan' => 'selesai',
+        ]);
+
+        // tracking aduan
+        $aduan->trackings()->create([
+            'step' => 'Verifikasi Kepala Dinas',
+            'status' => $aduan->status_aduan,
+            'keterangan' => "Aduan telah diverifikasi oleh " . auth()->user()->name,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Berhasil memproses aduan',
         ]);
     }
 }

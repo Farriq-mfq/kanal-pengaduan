@@ -169,7 +169,7 @@ class AduanDataTable extends DataTable
                     Column::make('nama_pelapor')->title('Nama Pelapor')->width(100),
                     Column::make('nomer_aduan')->title('Nomor Aduan')->width(100),
                     Column::make('uraian_pengaduan')->title('Uraian Aduan'),
-                    Column::make('verifikasi_kepala_bidang')->title('Status Verifikasi Kepala Bidang'),
+                    Column::make('status_tindak_lanjut_kepala_bidang')->title('Status Verifikasi Kepala Bidang'),
                     Column::make('verifikasi_kepala_dinas')->title('Status Verifikasi Kepala Dinas'),
                     Column::computed('action')
                         ->exportable(false)

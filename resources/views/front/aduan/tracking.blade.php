@@ -154,11 +154,11 @@
                                     </div>
                                 </td>
                             </tr>
-                            @if ($aduan->uraian_verifikasi_kepala_bidang)
+                            @if ($aduan->uraian_tindak_lanjut_kepala_bidang)
                                 <tr>
                                     <th>Uraian Verifikasi Dari Kepala Bidang</th>
                                     <td>
-                                        {{ $aduan->uraian_verifikasi_kepala_bidang ?? '-' }}
+                                        {{ $aduan->uraian_tindak_lanjut_kepala_bidang ?? '-' }}
                                     </td>
                                 </tr>
                             @endif
@@ -167,6 +167,28 @@
                                     <th>Tanggal Verifikasi Kepala Bidang</th>
                                     <td>
                                         {{ $aduan->tanggal_tindak_lanjut_kepala_bidang ?? '-' }}
+                                    </td>
+                                </tr>
+                            @endif
+                            @if ($aduan->kepala_dinas_id)
+                                <tr>
+                                    <th>Status Verifikasi Kepala Dinas</th>
+                                    <td>
+                                        <div @class([
+                                            'badge',
+                                            'bg-success' => $aduan->verifikasi_kepala_dinas,
+                                            'bg-danger' => !$aduan->verifikasi_kepala_dinas,
+                                        ])>
+                                            {{ $aduan->verifikasi_kepala_dinas ? 'Terverifikasi' : 'Belum Terverifikasi' }}
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endif
+                            @if ($aduan->tanggal_tindak_lanjut_kepala_dinas)
+                                <tr>
+                                    <th>Status Verifikasi Kepala Dinas</th>
+                                    <td>
+                                        {{ $aduan->tanggal_tindak_lanjut_kepala_dinas ?? '-' }}
                                     </td>
                                 </tr>
                             @endif

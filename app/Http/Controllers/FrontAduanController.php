@@ -8,17 +8,14 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 
 class FrontAduanController extends Controller
 {
-    /*************  ✨ Windsurf Command ⭐  *************/
-    /**
-     * Store a newly created aduan in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    /*******  01259c6f-12df-4412-8bff-69571c92fb37  *******/
+    public function index()
+    {
+        return view('front.aduan.list');
+    }
     public function store(Request $request)
     {
         if (!$request->ajax()) {
@@ -72,7 +69,7 @@ class FrontAduanController extends Controller
             $aduan->trackings()->create([
                 'step' => "Membuat Pengaduan",
                 'status' => "menunggu",
-                'keterangan' => "Anda Memuat Pengaduan",
+                'keterangan' => "Anda Membuat Pengaduan",
             ]);
 
             DB::commit();
@@ -125,5 +122,34 @@ class FrontAduanController extends Controller
 
         return view('front.aduan.revisi', compact('aduan'))->render();
 
+    }
+
+    public function kategori()
+    {
+        $kategori = Kategori::all();
+
+        $html = '<option value="">Pilih Kategori</option>';
+
+        foreach ($kategori as $kt) {
+            $html .= '<option value="' . $kt->id . '">' . $kt->name . '</option>';
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $html
+        ]);
+    }
+    public function listAduan()
+    {
+        $masyarakat = auth()->guard('masyarakat')->user();
+        $query = Aduan::query()->where('masyarakat_id', $masyarakat->id)->orderBy('id', 'DESC');
+        return DataTables::of($query)
+            ->setRowId('id')
+            ->addColumn('action', function (Aduan $aduan) {
+                return view('front.aduan.columns._actions', compact('aduan'));
+            })
+            ->addIndexColumn()
+            ->make(true)
+        ;
     }
 }

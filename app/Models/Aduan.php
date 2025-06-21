@@ -38,7 +38,8 @@ class Aduan extends Model
         'status_penyelesaian',
         'is_view',
         'status_tindak_lanjut_kepala_bidang',
-        'kategori_id'
+        'kategori_id',
+        'tanggal_selesai'
     ];
 
 

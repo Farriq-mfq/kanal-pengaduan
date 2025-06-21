@@ -46,6 +46,7 @@ return new class extends Migration {
             $table->unsignedBigInteger("masyarakat_id")->nullable();
             $table->foreign("masyarakat_id")->references("id")->on("masyarakats");
 
+
             // status mediasi
             /**
              * Jika mediasi dilakukan maka status menjadi true

@@ -23,9 +23,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        setlocale(LC_TIME, 'id_ID');
+        \Carbon\Carbon::setLocale('id');
+
         Gate::before(function ($user, $ability) {
             return $user->hasRole('superAdmin') ? true : null;
         });
+
         Tracking::observe(TrackingObserver::class);
     }
 }

@@ -48,6 +48,7 @@ Route::prefix('kanal')->group(function () {
         Route::post('/tracking', [TrackingController::class, 'json_tracking_result'])->name('tracking.json_tracking_result');
         // rekap
         Route::get('/rekap', [RekapController::class, 'rekap'])->name('rekap');
+        Route::get('/rekap/export', [RekapController::class, 'export'])->name('rekap.export');
 
     });
 

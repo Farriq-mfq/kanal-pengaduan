@@ -305,7 +305,8 @@ class DaftarAduanController extends Controller
                 'uraian_tindak_lanjut_kepala_bidang' => $request->uraian_verifikasi,
                 'kepala_dinas_id' => $kepala_dinas ? $kepala_dinas->id : null,
                 'status_aduan' => $kepala_dinas ? 'proses' : 'selesai',
-                'status_tindak_lanjut_kepala_bidang' => 'acc'
+                'status_tindak_lanjut_kepala_bidang' => 'acc',
+                'tanggal_selesai' => $kepala_dinas ? null : now(),
             ]);
 
             // tracking aduan
@@ -378,6 +379,7 @@ class DaftarAduanController extends Controller
 
             $aduan->update([
                 'status_aduan' => 'selesai',
+                'tanggal_selesai' => now(),
                 'text_direct_pengaduan' => $request->text_direct_pengaduan
             ]);
 
@@ -657,6 +659,7 @@ class DaftarAduanController extends Controller
             'tanggal_tindak_lanjut_kepala_dinas' => now(),
             'verifikasi_kepala_dinas' => true,
             'status_aduan' => 'selesai',
+            'tanggal_selesai' => now(),
         ]);
 
         // tracking aduan

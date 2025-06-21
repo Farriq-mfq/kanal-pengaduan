@@ -22,7 +22,17 @@ class KategoriRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', 'unique:kategoris,name,' . $this->id],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Kategori harus diisi',
+            'name.unique' => 'Kategori sudah ada',
+            'name.string' => 'Kategori harus berupa string',
+            'name.max' => 'Kategori maksimal 255 karakter',
         ];
     }
 }

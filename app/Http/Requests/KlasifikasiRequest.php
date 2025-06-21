@@ -22,7 +22,7 @@ class KlasifikasiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255', 'unique:klasifikasis,klasifikasi,' . $this->id],
         ];
     }
 
@@ -30,6 +30,7 @@ class KlasifikasiRequest extends FormRequest
     {
         return [
             'name.required' => 'Klasifikasi harus diisi',
+            'name.unique' => 'Klasifikasi sudah ada',
             'name.string' => 'Klasifikasi harus berupa string',
             'name.max' => 'Klasifikasi maksimal 255 karakter',
         ];

@@ -8,6 +8,7 @@ class Kategori extends Model
 {
     protected $fillable = [
         'name',
+        'panduan',
     ];
 
     public function aduan()

@@ -15,6 +15,7 @@
                         <h1 class="modal-title fs-5" id="klasifikasiEditModal-{{ $klasifikasi->id }}">Edit Klasifikasi</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    <input type="hidden" name="id" value="{{ $klasifikasi->id }}">">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-12">

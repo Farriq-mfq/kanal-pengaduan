@@ -54,6 +54,7 @@ class KategoriController extends Controller implements HasMiddleware
         try {
             Kategori::create([
                 'name' => $request->name,
+                'panduan' => $request->panduan
             ]);
             DB::commit();
             return redirect()->route('kategori.index')->with('success', 'Kategori berhasil ditambahkan');
@@ -88,6 +89,7 @@ class KategoriController extends Controller implements HasMiddleware
         try {
             Kategori::find($id)->update([
                 'name' => $request->name,
+                'panduan' => $request->panduan
             ]);
             DB::commit();
             return redirect()->route('kategori.index')->with('success', 'Kategori berhasil ditambahkan');

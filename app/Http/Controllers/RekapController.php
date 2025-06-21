@@ -60,9 +60,9 @@ class RekapController extends Controller
                 'total_pengaduan' => $aduan->count(),
                 'start_month' => $start_month,
                 'end_month' => $end_month
-            ])->setPaper('folio', 'landscape')->download('rekap.pdf');
+            ])->setPaper('folio', 'landscape')->download('rekapitulasi_' . date('d-m-Y') . '.pdf');
         } else if ($request->type == 'download') {
-            return Excel::download(new AduansExport($aduan_perbulan, $aduan->count(), $start_month, $end_month), 'rekap.xlsx');
+            return Excel::download(new AduansExport($aduan_perbulan, $aduan->count(), $start_month, $end_month), 'rekapitulasi_' . date('d-m-Y') . '.xlsx');
         } else {
             return redirect()->back();
         }

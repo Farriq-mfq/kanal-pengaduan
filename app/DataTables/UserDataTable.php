@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\Kategori;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Spatie\Permission\Models\Role;
@@ -32,7 +33,8 @@ class UserDataTable extends DataTable
                 return $user->kateogri ? $user->kateogri->name : "-";
             })
             ->addColumn('action', function (User $user) use ($roles) {
-                return view('pages.users.columns._actions', compact('user', 'roles'));
+                $kategori = Kategori::all();
+                return view('pages.users.columns._actions', compact('user', 'roles', 'kategori'));
             })
 
             ->setRowId('id')->addIndexColumn();

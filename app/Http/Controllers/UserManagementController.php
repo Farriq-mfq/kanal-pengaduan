@@ -118,6 +118,13 @@ class UserManagementController extends Controller implements HasMiddleware
             if (!$role)
                 return back()->with('error', 'Role tidak ditemukan');
 
+            if ($role->name == 'tim penanganan') {
+                $kategori = Kategori::findOrFail($request->kategori);
+                $user->kategori_id = $kategori->id;
+            } else {
+                $user->kategori_id = null;
+            }
+
             $user->update([
                 'name' => $request->name,
                 'username' => $request->username,

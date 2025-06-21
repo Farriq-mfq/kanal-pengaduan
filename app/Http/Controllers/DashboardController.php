@@ -7,6 +7,8 @@ use App\Models\Klasifikasi;
 use App\Models\Masyarakat;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class DashboardController extends Controller
 {
@@ -18,10 +20,12 @@ class DashboardController extends Controller
                 'name' => "Dashboard"
             ]
         ];
+        $years_aduan = Aduan::select(DB::raw('YEAR(tanggal_pengaduan) as year'))->groupBy('year')->get();
+
 
         $latest_aduan = Aduan::orderBy('id', 'DESC')->limit(5)->get();
 
-        return view('pages.dashboard', compact('breadcrumbs', 'latest_aduan'));
+        return view('pages.dashboard', compact('breadcrumbs', 'latest_aduan', 'years_aduan'));
     }
 
     public function json_stats_count(Request $request)
@@ -38,12 +42,20 @@ class DashboardController extends Controller
         return response()->json($stats);
     }
 
-    public function json_stats_aduan()
+    public function json_stats_aduan(Request $request)
     {
-        $aduans_proses = Aduan::where('status_aduan', 'proses')->whereYear('tanggal_pengaduan', date('Y'))->get();
-        $aduans_menunggu = Aduan::where('status_aduan', 'menunggu')->whereYear('tanggal_pengaduan', date('Y'))->get();
-        $aduans_ditolak = Aduan::where('status_aduan', 'ditolak')->whereYear('tanggal_pengaduan', date('Y'))->get();
-        $aduans_selesai = Aduan::where('status_aduan', 'selesai')->whereYear('tanggal_pengaduan', date('Y'))->get();
+        $year = date('Y');
+        $validator = Validator::make($request->all(), [
+            'year' => 'date_format:Y',
+        ]);
+        if (!$validator->fails()) {
+            $year = $request->year;
+        }
+
+        $aduans_proses = Aduan::where('status_aduan', 'proses')->whereYear('tanggal_pengaduan', $year)->get();
+        $aduans_menunggu = Aduan::where('status_aduan', 'menunggu')->whereYear('tanggal_pengaduan', $year)->get();
+        $aduans_ditolak = Aduan::where('status_aduan', 'ditolak')->whereYear('tanggal_pengaduan', $year)->get();
+        $aduans_selesai = Aduan::where('status_aduan', 'selesai')->whereYear('tanggal_pengaduan', $year)->get();
 
         $aduans_proses_perbulan = [
             "Jan" => $this->getAduanPermonth($aduans_proses, 1),
@@ -103,7 +115,7 @@ class DashboardController extends Controller
             "Dec" => $this->getAduanPermonth($aduans_selesai, 12)
         ];
 
-        $total_aduan_tahunan = Aduan::whereYear('tanggal_pengaduan', date('Y'))->count();
+        $total_aduan_tahunan = Aduan::whereYear('tanggal_pengaduan', $year)->count();
 
         return response()->json([
             'aduan_proses_perbulan' => $aduans_proses_perbulan,

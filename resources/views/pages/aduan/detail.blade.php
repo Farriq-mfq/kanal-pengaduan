@@ -16,9 +16,9 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Nama Pelapor</th>
+                                    <th>Nama Pengadu</th>
                                     <td>
-                                        Anonymous
+                                        {{ $aduan->masyarakat ? $aduan->masyarakat->name : '-' }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -33,7 +33,7 @@
                                         @if ($aduan->status_aduan == 'menunggu')
                                             <span><i class="fa fa-clock text-warning me-2"></i> Menunggu</span>
                                         @elseif ($aduan->status_aduan == 'proses')
-                                            <span><i class="fa fa-info text-primary me-2"></i> Proses</span>
+                                            <span><i class="fa fa-spinner text-primary me-2"></i> Proses</span>
                                         @elseif($aduan->status_aduan == 'ditolak')
                                             <span><i class="fa fa-times text-danger me-2"></i>Ditolak</span>
                                         @elseif($aduan->status_aduan == 'selesai')
@@ -97,23 +97,23 @@
                         </div>
                         <div class="col-md-6 col-12">
                             <h5 class="fs-4 fw-bold">
-                                Kepala Bidang
+                                Kepala Bidang & Kepala Dinas
                             </h5>
                             <table class="table table-bordered">
                                 <tr>
-                                    <th>Nama </th>
+                                    <th>Nama Kepala Bidang</th>
                                     <td>
                                         {{ $aduan->kepala_bidang->name ?? '-' }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Bagian</th>
+                                    <th>Bagian Kepala Bidang</th>
                                     <td>
                                         {{ $aduan->kepala_bidang->jabatan ?? '-' }}
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Status Verifikasi</th>
+                                    <th>Status Verifikasi Kepala Bidang</th>
                                     <td>
                                         @if ($aduan->verifikasi_kepala_bidang)
                                             <span class="badge bg-success">Terverifikasi</span>
@@ -123,11 +123,56 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Uraian Tindakan</th>
+                                    <th>Uraian Verifikasi Dari Kepala Bidang</th>
                                     <td>
                                         {{ $aduan->uraian_tindak_lanjut_kepala_bidang ?? '-' }}
                                     </td>
                                 </tr>
+                                <tr>
+                                    <th>Tanggal Verifikasi Kepala Bidang</th>
+                                    <td>
+                                        {{ $aduan->tanggal_tindak_lanjut_kepala_bidang ?? '-' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Status Pemeriksaan Kepala Bidang</th>
+                                    <td>
+                                        <div @class([
+                                            'badge',
+                                            'bg-warning' => $aduan->status_tindak_lanjut_kepala_bidang === 'menunggu',
+                                            'bg-success' => $aduan->status_tindak_lanjut_kepala_bidang === 'acc',
+                                            'bg-danger' => $aduan->status_tindak_lanjut_kepala_bidang === 'revisi',
+                                        ])>
+    {{ strtoupper($aduan->status_tindak_lanjut_kepala_bidang) }}
+                                        </div>
+                                        @if ($aduan->status_tindak_lanjut_kepala_bidang === 'revisi' || $aduan->status_tindak_lanjut_kepala_bidang === 'acc')
+                                            <button class="btn btn-sm btn-link" id="btnRevisiKepalaBidang">Lihat Riwayat
+                                                Revisi Kepala Bidang</button>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @if ($aduan->kepala_dinas_id)
+                                    <tr>
+                                        <th>Status Verifikasi Kepala Dinas</th>
+                                        <td>
+                                            <div @class([
+                                                'badge',
+                                                'bg-success' => $aduan->verifikasi_kepala_dinas,
+                                                'bg-danger' => !$aduan->verifikasi_kepala_dinas,
+                                            ])>
+                                                {{ $aduan->verifikasi_kepala_dinas ? 'Terverifikasi' : 'Belum Terverifikasi' }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endif
+                                @if ($aduan->tanggal_tindak_lanjut_kepala_dinas)
+                                    <tr>
+                                        <th>Status Verifikasi Kepala Dinas</th>
+                                        <td>
+                                            {{ $aduan->tanggal_tindak_lanjut_kepala_dinas ?? '-' }}
+                                        </td>
+                                    </tr>
+                                @endif
                             </table>
                         </div>
                         <div class="col-md-6 col-12">
@@ -139,35 +184,6 @@
                                     <th>Hasil Telaah</th>
                                     <td>
                                         {{ $aduan->telaah_aduan ?? '-' }}
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <h5 class="fs-4 fw-bold">
-                                Mediasi
-                            </h5>
-                            <table class="table table-bordered">
-                                <tr>
-                                    <th>Status Mediasi</th>
-                                    <td>
-                                        @if ($aduan->status_mediasi)
-                                            <span><i class="fa fa-check text-success me-2"></i>Dilakukan Mediasi</span>
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Tanggal Mediasi</th>
-                                    <td>
-                                        {{ $aduan->tanggal_mediasi ?? '-' }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Uraian Mediasi</th>
-                                    <td>
-                                        {{ $aduan->uraian_mediasi ?? '-' }}
                                     </td>
                                 </tr>
                             </table>
@@ -193,13 +209,13 @@
                                         {{ $aduan->tanggal_disampaikan ?? '-' }}
                                     </td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <th>Tanggapan Masyarakat</th>
                                     <td>
                                         {{ $aduan->tanggapan ?? '-' }}
                                     </td>
-                                </tr>
-                                <tr>
+                                </tr> -->
+                                <!-- <tr>
                                     <th>Dilihat</th>
                                     <td>
                                         @if ($aduan->is_view)
@@ -208,17 +224,72 @@
                                             -
                                         @endif
                                     </td>
-                                </tr>
+                                </tr> -->
                             </table>
                         </div>
                     </div>
-                    <div class="mt-4">
-                        <a href="{{ route('aduan.index') }}" class="btn btn-primary"><i class="fa fa-print me-2"></i>
-                            Cetak Surat Aduan</a>
-                    </div>
+                    @if (count($aduan->trackings) > 0)
+                        <div class="col-12">
+                            <h3 class="my-4">
+                                Progress Aduan
+                            </h3>
+                            <table class="table table-bordered table-striped">
+                                <tr>
+                                    <th>Step</th>
+                                    <th>Keterangan</th>
+                                    <th>Tanggal</th>
+                                </tr>
+                                @foreach ($aduan->trackings as $ky => $tracking)
+                                    <tr>
+                                        <td>
+                                            {{ $tracking->step }}
+                                        </td>
+                                        <td>
+                                            {{ $tracking->keterangan }}
+                                        </td>
+                                        <td>
+                                            {{ \Carbon\Carbon::parse($tracking->created_at)->format('d F Y H:i') }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
     </div>
+    <div class="modal fade" tabindex="-1" id="modalRevisiKepalaBidang">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Riwayat Revisi Kepala Bidang</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    @push('scripts')
+        <script>
+            $('#btnRevisiKepalaBidang').on('click', function () {
+                $('#modalRevisiKepalaBidang').modal('show')
+                $.ajax({
+                    url: '{{ route('front.aduan.revisi', ':id') }}'.replace(':id', '{{ $aduan->id }}'),
+                    beforeSend: function () {
+                        $('#modalRevisiKepalaBidang .modal-body').html('Tunggu sebentar...')
+                    },
+                    success: function (res) {
+                        $('#modalRevisiKepalaBidang .modal-body').html(res)
+                    },
+                    error: function (err) {
+                        $('#modalRevisiKepalaBidang .modal-body').html('Terjadi kesalahan')
+                    }
+                })
+            })
+        </script>
+    @endpush
     </x-default-layout>

@@ -42,7 +42,7 @@ class AduanDataTable extends DataTable
             ->editColumn('verifikasi_kepala_dinas', function (Aduan $aduan) {
                 return view('pages.aduan.columns._verifikasi_kepala_dinas', compact('aduan'));
             })
-            ->editColumn('nama_pelapor', function (Aduan $aduan) {
+            ->addColumn('nama_pelapor', function (Aduan $aduan) {
                 return view('pages.aduan.columns._nama_pelapor', compact('aduan'));
             })
             ->editColumn('status_tindak_lanjut_kepala_bidang', function (Aduan $aduan) {

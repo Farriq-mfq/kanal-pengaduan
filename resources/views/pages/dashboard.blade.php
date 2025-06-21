@@ -82,10 +82,17 @@
         <div class="col-md-8">
             <div class="card card-round">
                 <div class="card-header">
-                    <div class="card-head-row">
-                        <div class="card-title">
+                    <div class="card-head-row d-flex justify-content-between align-items-center">
+                        <div class="card-title" id="titleStatistikAduan">
                             Statistik Aduan Tahun {{ date('Y') }}
                         </div>
+                        <select id="graphTahun" class="form-control" style="max-width:200px">
+                            @foreach ($years_aduan as $y)
+                                <option value="{{ $y->year }}" @selected(date('Y') == $y->year)>
+                                    {{ $y->year }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="card-body">
@@ -117,8 +124,7 @@
                                 @foreach ($latest_aduan as $item)
                                     <tr>
                                         <th scope="row">
-                                            <a href="{{ route('aduan.detail', $item->id) }}"
-                                                class="text-secondary fw-bold">
+                                            <a href="{{ route('aduan.detail', $item->id) }}" class="text-secondary fw-bold">
                                                 @if ($item->status_aduan == 'menunggu')
                                                     <span><i class="fa fa-clock text-warning me-2"></i> Menunggu</span>
                                                 @elseif ($item->status_aduan == 'proses')
@@ -145,7 +151,8 @@
     </div>
     @push('scripts')
         <script>
-            $(document).ready(function() {
+
+            $(document).ready(function () {
                 const totalAduan = $('#totalAduan');
                 const totalMasyarakat = $('#totalMasyarakat');
                 const totalKlasifikasi = $('#totalKlasifikasi');
@@ -156,32 +163,35 @@
                 totalKlasifikasi.text('Loading...');
                 totalPengguna.text('Loading...');
 
-                $.get('{{ route('dashboard.json_stats_count') }}', function(data) {
+                $.get('{{ route('dashboard.json_stats_count') }}', function (data) {
                     totalAduan.text(data.total_pengaduan);
                     totalMasyarakat.text(data.total_masyarakat);
                     totalKlasifikasi.text(data.total_klasifikasi);
                     totalPengguna.text(data.total_users);
                 }, 'json')
 
+
+
                 const chartAduan = document.getElementById('chartStatusAduan');
-
-                var ctx = chartAduan.getContext('2d');
-                ctx.font = "30px Arial";
-                ctx.fillText("Sedang Memuat  Grafik...", 10, 40, 300);
-
-                $.get('{{ route('dashboard.json_stats_aduan') }}', function(data) {
-                    const proses = Object.values(data.aduan_proses_perbulan)
-                    const menunggu = Object.values(data.aduan_menunggu_perbulan)
-                    const selesai = Object.values(data.aduan_selesai_perbulan)
-                    const tolak = Object.values(data.aduan_tolak_perbulan)
-                    var statisticsChart = new Chart(ctx, {
-                        type: 'line',
-                        data: {
-                            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
-                                "Oct", "Nov",
-                                "Dec"
-                            ],
-                            datasets: [{
+                function renderGraph(year = {{ date('Y') }}) {
+                    var ctx = chartAduan.getContext('2d');
+                    ctx.font = "30px Arial";
+                    ctx.fillText("Sedang Memuat  Grafik...", 10, 40, 300);
+                    const url_req = '{{ route('dashboard.json_stats_aduan') }}'
+                    $('#titleStatistikAduan').text('Statistik Aduan Tahun ' + year)
+                    $.get(url_req + '?year=' + year, function (data) {
+                        const proses = Object.values(data.aduan_proses_perbulan)
+                        const menunggu = Object.values(data.aduan_menunggu_perbulan)
+                        const selesai = Object.values(data.aduan_selesai_perbulan)
+                        const tolak = Object.values(data.aduan_tolak_perbulan)
+                        var statisticsChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
+                                    "Oct", "Nov",
+                                    "Dec"
+                                ],
+                                datasets: [{
                                     label: "Selesai",
                                     borderColor: '#28a745',
                                     pointBackgroundColor: 'rgba(40, 167, 69, 0.6)',
@@ -228,73 +238,80 @@
 
 
 
-                            ]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            legend: {
-                                display: false
+                                ]
                             },
-                            tooltips: {
-                                bodySpacing: 4,
-                                mode: "nearest",
-                                intersect: 0,
-                                position: "nearest",
-                                xPadding: 10,
-                                yPadding: 10,
-                                caretPadding: 10
-                            },
-                            layout: {
-                                padding: {
-                                    left: 5,
-                                    right: 5,
-                                    top: 15,
-                                    bottom: 15
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                legend: {
+                                    display: false
+                                },
+                                tooltips: {
+                                    bodySpacing: 4,
+                                    mode: "nearest",
+                                    intersect: 0,
+                                    position: "nearest",
+                                    xPadding: 10,
+                                    yPadding: 10,
+                                    caretPadding: 10
+                                },
+                                layout: {
+                                    padding: {
+                                        left: 5,
+                                        right: 5,
+                                        top: 15,
+                                        bottom: 15
+                                    }
+                                },
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            fontStyle: "500",
+                                            beginAtZero: false,
+                                            maxTicksLimit: 5,
+                                            padding: 10
+                                        },
+                                        gridLines: {
+                                            drawTicks: false,
+                                            display: false
+                                        }
+                                    }],
+                                    xAxes: [{
+                                        gridLines: {
+                                            zeroLineColor: "transparent"
+                                        },
+                                        ticks: {
+                                            padding: 10,
+                                            fontStyle: "500"
+                                        }
+                                    }]
+                                },
+                                legendCallback: function (chart) {
+                                    var text = [];
+                                    text.push('<ul class="' + chart.id + '-legend html-legend">');
+                                    for (var i = 0; i < chart.data.datasets.length; i++) {
+                                        text.push('<li><span style="background-color:' + chart.data
+                                            .datasets[i]
+                                            .legendColor + '"></span>');
+                                        if (chart.data.datasets[i].label) {
+                                            text.push(chart.data.datasets[i].label);
+                                        }
+                                        text.push('</li>');
+                                    }
+                                    text.push('</ul>');
+                                    return text.join('');
                                 }
-                            },
-                            scales: {
-                                yAxes: [{
-                                    ticks: {
-                                        fontStyle: "500",
-                                        beginAtZero: false,
-                                        maxTicksLimit: 5,
-                                        padding: 10
-                                    },
-                                    gridLines: {
-                                        drawTicks: false,
-                                        display: false
-                                    }
-                                }],
-                                xAxes: [{
-                                    gridLines: {
-                                        zeroLineColor: "transparent"
-                                    },
-                                    ticks: {
-                                        padding: 10,
-                                        fontStyle: "500"
-                                    }
-                                }]
-                            },
-                            legendCallback: function(chart) {
-                                var text = [];
-                                text.push('<ul class="' + chart.id + '-legend html-legend">');
-                                for (var i = 0; i < chart.data.datasets.length; i++) {
-                                    text.push('<li><span style="background-color:' + chart.data
-                                        .datasets[i]
-                                        .legendColor + '"></span>');
-                                    if (chart.data.datasets[i].label) {
-                                        text.push(chart.data.datasets[i].label);
-                                    }
-                                    text.push('</li>');
-                                }
-                                text.push('</ul>');
-                                return text.join('');
                             }
-                        }
-                    });
-                })
+                        });
+                    })
 
+                }
+
+                renderGraph();
+                $("#graphTahun").on('change', function () {
+                    const tahun = $(this).val()
+                    renderGraph(tahun)
+                })
             })
         </script>
     @endpush

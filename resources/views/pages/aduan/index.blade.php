@@ -20,21 +20,21 @@
 <x-default-layout title="Daftar Aduan" :breadcrumbs="$breadcrumbs">
     <div class="card">
         <div class="card-title px-5 py-4 d-flex gap-4 flex-wrap">
-            <div class="d-flex align-items-center gap-2 fs-5">
-                <div style="height: 40px;width: 40px;background-color: #fff3cd"></div>
-                <span>Menunggu</span>
+            <div class="d-flex align-items-center gap-2 fs-6">
+                <div style="height: 40px;width: 40px;background-color: #fff3cd;"></div>
+                <span style="text-transform: uppercase">Menunggu</span>
             </div>
-            <div class="d-flex align-items-center gap-2 fs-5">
-                <div style="height: 40px;width: 40px;background-color: #d1ecf1"></div>
-                <span>Proses</span>
+            <div class="d-flex align-items-center gap-2 fs-6">
+                <div style="height: 40px;width: 40px;background-color: #d1ecf1;"></div>
+                <span style="text-transform: uppercase">Proses</span>
             </div>
-            <div class="d-flex align-items-center gap-2 fs-5">
-                <div style="height: 40px;width: 40px;background-color: #d4edda"></div>
-                <span>Selesai</span>
+            <div class="d-flex align-items-center gap-2 fs-6">
+                <div style="height: 40px;width: 40px;background-color: #d4edda;"></div>
+                <span style="text-transform: uppercase">Selesai</span>
             </div>
-            <div class="d-flex align-items-center gap-2 fs-5">
-                <div style="height: 40px;width: 40px;background-color: #f8d7da"></div>
-                <span>Tolak</span>
+            <div class="d-flex align-items-center gap-2 fs-6">
+                <div style="height: 40px;width: 40px;background-color: #f8d7da;"></div>
+                <span style="text-transform: uppercase">Tolak</span>
             </div>
         </div>
         <div class="card-body">
@@ -93,6 +93,7 @@
                                 <label class="form-check-label" for="continueKepalaDinas">
                                     Teruskan Ke Kepala Dinas
                                 </label>
+                                <p class="text-muted">Note : Jika di checklist maka akan diteruskan ke kepala dinas dan menunggu verifikasi tindak lanjut dari kepala dinas sedangkan jika tidak maka akan otomatis aduan selesai</p>
                             </div>
                         </div>
                         <div class="modal-footer">

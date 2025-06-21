@@ -46,8 +46,13 @@ class TrackingController extends Controller
             ], 400);
         }
 
-        $aduan = Aduan::where('nomer_aduan', $request->nomor_aduan)->with('trackings', function ($q) {
-            $q->orderBy('created_at', 'desc'); })->first();
+        $aduan = Aduan::where('nomer_aduan', $request->nomor_aduan)
+            ->with('trackings', function ($q) {
+                $q->orderBy('created_at', 'desc');
+            })
+            ->with('masyarakat')
+            ->first();
+
         if (!$aduan)
             return response()->json([
                 'success' => false,

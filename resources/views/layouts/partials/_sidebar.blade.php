@@ -51,6 +51,12 @@
                         <p>Tracking Aduan</p>
                     </a>
                 </li>
+                <li @class(['nav-item', 'active' => is_active('rekap')])>
+                    <a href="{{ route('rekap') }}">
+                        <i class="fas fa-book"></i>
+                        <p>Rekapitulasi Aduan</p>
+                    </a>
+                </li>
                 @can(['klasifikasi view', 'users view', 'roles view'])
                     <li class="nav-section">
                         <span class="sidebar-mini-icon">

@@ -42,7 +42,7 @@
                 dangerMode: true,
             }).then((willDelete) => {
                 if (willDelete) {
-                    $('#delete-form').submit();
+                    $(this).submit();
                 }
             })
 

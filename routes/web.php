@@ -4,6 +4,7 @@ use App\Http\Controllers\DaftarAduanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KlasifikasiController;
+use App\Http\Controllers\RekapController;
 use App\Http\Controllers\RolesManagementController;
 use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\UserManagementController;
@@ -45,7 +46,8 @@ Route::prefix('kanal')->group(function () {
 
         Route::get('/tracking', [TrackingController::class, 'tracking'])->name('tracking');
         Route::post('/tracking', [TrackingController::class, 'json_tracking_result'])->name('tracking.json_tracking_result');
-
+        // rekap
+        Route::get('/rekap', [RekapController::class, 'rekap'])->name('rekap');
 
     });
 

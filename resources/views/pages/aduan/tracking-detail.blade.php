@@ -34,7 +34,6 @@
     }
 </style>
 
-
 <h3 class="my-4">Detail Aduan</h3>
 <table class="table table-bordered table-striped">
     <tr>
@@ -45,10 +44,10 @@
     </tr>
     <tr>
         <th>
-            Nama Pelapor
+            Nama Pengadu
         </th>
         <td>
-            {{ $aduan->masyarkat ? $aduan->masyarkat->name : '-' }}
+            {{ $aduan->masyarakat ? $aduan->masyarakat->name : '-' }}
         </td>
     </tr>
     <tr>

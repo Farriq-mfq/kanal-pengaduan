@@ -60,9 +60,9 @@ return new class extends Migration {
             $table->text("tanggapan")->nullable();
 
             // status penyelesaian
-            $table->string("status_penyelesaian")->nullable(); // selesai,tidak dapat di selesaikan
+            // $table->string("status_penyelesaian")->nullable(); // selesai,tidak dapat di selesaikan
             // jika sudah dilihat oleh masyarakat maka true
-            $table->boolean('is_view')->default(0);
+            // $table->boolean('is_view')->default(0);
 
             $table->timestamps();
         });

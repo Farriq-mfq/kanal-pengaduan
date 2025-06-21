@@ -4,6 +4,14 @@
             <div class="row gap-5">
                 <div class="col-12">
                     <div class="row">
+                        <div class="col-md-6 col-12 mb-2">
+                            <h5 class="fs-4 fw-bold">
+
+                                Uraian Aduan</h5>
+                            <p>
+                                {{ $aduan->uraian_pengaduan }}
+                            </p>
+                        </div>
                         <div class="col-md-6 col-12">
                             <h5 class="fs-4 fw-bold">
 
@@ -50,14 +58,6 @@
                                     </tr>
                                 @endif
                             </table>
-                        </div>
-                        <div class="col-md-6 col-12 mb-2">
-                            <h5 class="fs-4 fw-bold">
-
-                                Uraian Aduan</h5>
-                            <p>
-                                {{ $aduan->uraian_pengaduan }}
-                            </p>
                         </div>
                         <div class="col-md-6 col-12">
                             <h5 class="fs-4 fw-bold">

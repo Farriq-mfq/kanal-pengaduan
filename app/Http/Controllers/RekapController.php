@@ -48,6 +48,12 @@ class RekapController extends Controller
             return Carbon::parse($aduan->tanggal_pengaduan)->locale('id')->format('F Y');
         });
 
+        // return view('pages.aduan.print', [
+        //     'aduan_perbulan' => $aduan_perbulan,
+        //     'total_pengaduan' => $aduan->count(),
+        //     'start_month' => $start_month,
+        //     'end_month' => $end_month
+        // ]);
         if ($request->type == 'cetak') {
             return Pdf::loadView('pages.aduan.print', [
                 'aduan_perbulan' => $aduan_perbulan,

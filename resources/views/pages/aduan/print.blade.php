@@ -1,5 +1,7 @@
 <h3 style="text-align: center;">
-    OPD: DINAS KEPENDUDUKAN DAN PENCATATAN SIPIL KOTA PEKALONGAN TAHUN @if($start_month->format('Y') == $end_month->format('Y')) {{ $start_month->format('Y') }} @else {{ $start_month->format('Y') }} -{{ $end_month->format('Y') }}  @endif
+    OPD: DINAS KEPENDUDUKAN DAN PENCATATAN SIPIL KOTA PEKALONGAN TAHUN
+    @if($start_month->format('Y') == $end_month->format('Y')) {{ $start_month->format('Y') }} @else
+    {{ $start_month->format('Y') }} -{{ $end_month->format('Y') }} @endif
 </h3>
 <table>
     <thead>
@@ -38,10 +40,24 @@
                         {{ $ad->tindak_lanjut ? $ad->tindak_lanjut : $ad->text_direct_pengaduan ?? '-'}}
                     </td>
                     <td style="border: 1px solid black;">
-                        {{ $ad->tanggal_selesai ?? '-' }}
+                        {{ $ad->tanggal_selesai ? \Carbon\Carbon::parse($ad->tanggal_selesai)->locale('id')->format('Y/m/d') : '-' }}
                     </td>
                     <td style="border: 1px solid black;">
-                        {{ $ad->tanggal_selesai ? \Carbon\Carbon::parse($ad->tanggal_selesai)->locale('id')->longAbsoluteDiffForHumans($ad->created_at) : '-' }}
+                        @php
+                            $start = \Carbon\Carbon::parse($ad->tanggal_pengaduan);
+                            $end = $ad->tanggal_selesai ? \Carbon\Carbon::parse($ad->tanggal_selesai) : null;
+                            $diff = $end ? $start->diffInDays($end) : 0;
+                        @endphp
+                        @if ($end)
+                            @if (floor($diff) == 0)
+                                1 Hari
+                                <!-- {{ $ad->created_at->diffForHumans($end) }} -->
+                            @else
+                                {{ floor($diff) }} Hari
+                            @endif
+                        @else
+                            -
+                        @endif
                     </td>
                 </tr>
             @endforeach

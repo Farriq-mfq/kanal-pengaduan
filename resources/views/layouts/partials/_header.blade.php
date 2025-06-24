@@ -54,7 +54,7 @@
                             <li>
                                 <div class="user-box">
                                     <div class="avatar-lg">
-                                        <img src="assets/img/profile.jpg" alt="image profile"
+                                        <img src="{{ asset('assets/img/profile.jpg') }}" alt="image profile"
                                             class="avatar-img rounded" />
                                     </div>
                                     <div class="u-text">
@@ -69,7 +69,7 @@
                             </li>
                             <li>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">My Profile</a>
+                                <a class="dropdown-item" href="{{ route('profile') }}">My Profile</a>
                                 <div class="dropdown-divider"></div>
                                 <form action="{{ route('logout') }}" id="logout-form" method="POST">
                                     @csrf

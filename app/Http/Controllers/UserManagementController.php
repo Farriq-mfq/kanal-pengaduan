@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
 class UserManagementController extends Controller implements HasMiddleware
@@ -157,4 +158,34 @@ class UserManagementController extends Controller implements HasMiddleware
             return redirect()->route('users.index')->with('error', 'User gagal dihapus');
         }
     }
+
+    public function update_password(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => ['required']
+        ], [
+            'password.required' => 'Password tidak boleh kosong'
+        ]);
+
+        if ($validator->fails()) {
+            return back()->with('error', $validator->errors()->first());
+        }
+
+        DB::beginTransaction();
+        try {
+            $user = User::find($id);
+            if (!$user) {
+                return back()->with('error', 'User tidak ditemukan');
+            }
+            $user->update([
+                'password' => bcrypt(request()->password),
+            ]);
+            DB::commit();
+            return redirect()->route('users.index')->with('success', 'Password berhasil diupdate');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('users.index')->with('error', 'Password gagal diupdate');
+        }
+    }
+
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\DaftarAduanController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KlasifikasiController;
+use App\Http\Controllers\MasyarakatController;
 use App\Http\Controllers\RekapController;
 use App\Http\Controllers\RolesManagementController;
 use App\Http\Controllers\TrackingController;
@@ -20,6 +21,7 @@ Route::prefix('kanal')->group(function () {
         Route::get('/stats/count', [DashboardController::class, 'json_stats_count'])->name('dashboard.json_stats_count');
         Route::get('/stats/aduan', [DashboardController::class, 'json_stats_aduan'])->name('dashboard.json_stats_aduan');
 
+        Route::put('/users/{id}/password', [UserManagementController::class, 'update_password'])->name('users.update.password');
         Route::resource('users', UserManagementController::class);
         Route::resource('roles', RolesManagementController::class);
         Route::resource('klasifikasi', KlasifikasiController::class);
@@ -28,6 +30,7 @@ Route::prefix('kanal')->group(function () {
         Route::prefix('aduan')->group(function () {
             Route::get('/', [DaftarAduanController::class, 'index'])->name('aduan.index');
             Route::get('/{id}/detail', [DaftarAduanController::class, 'show'])->name('aduan.detail');
+            Route::get('{id}/detail/print', [DaftarAduanController::class, 'print'])->name('aduan.detail.print');
             // ADMIN
             Route::delete('/{id}/destroy', [DaftarAduanController::class, 'destroy'])->name('aduan.destroy')->middleware('permission:aduan destroy');
             Route::patch('/{id}/accept', [DaftarAduanController::class, 'accept'])->name('aduan.accept')->middleware('permission:aduan accept');
@@ -49,7 +52,9 @@ Route::prefix('kanal')->group(function () {
         // rekap
         Route::get('/rekap', [RekapController::class, 'rekap'])->name('rekap');
         Route::get('/rekap/export', [RekapController::class, 'export'])->name('rekap.export');
-
+        // masyarakat
+        Route::get('masyarakat', [MasyarakatController::class, 'index'])->name('masyarakat.index');
+        Route::get('masyarakat/export', [MasyarakatController::class, 'export'])->name('masyarakat.export');
     });
 
     include_once __DIR__ . '/auth.php';

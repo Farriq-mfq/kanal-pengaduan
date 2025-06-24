@@ -6,6 +6,7 @@ use App\DataTables\AduanDataTable;
 use App\Models\Aduan;
 use App\Models\Klasifikasi;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -673,5 +674,16 @@ class DaftarAduanController extends Controller
             'success' => true,
             'message' => 'Berhasil memproses aduan',
         ]);
+    }
+
+    public function print($id)
+    {
+        $aduan = Aduan::find($id);
+        if (!$aduan)
+            abort(404);
+
+        $image = file_get_contents(public_path() . '/assets/img/kop.png');
+        return Pdf::loadView('pages.aduan.cetak-detail', ['kop' => $image, 'aduan' => $aduan])->setPaper('folio')->download($aduan->nomer_aduan . '.pdf');
+        // return view('pages.aduan.cetak-detail',['kop' => $image, 'aduan' => $aduan]);
     }
 }

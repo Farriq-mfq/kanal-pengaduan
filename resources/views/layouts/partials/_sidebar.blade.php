@@ -3,8 +3,7 @@
         <!-- Logo Header -->
         <div class="logo-header" data-background-color="dark">
             <a href="{{ route('dashboard') }}" class="logo" style="color: white" class="d-flex">
-                <img src="{{ asset('assets/img/logo-tab.svg') }}" alt="navbar brand" class="navbar-brand"
-                    height="40" />
+                <img src="{{ asset('assets/img/logo-tab.svg') }}" alt="navbar brand" class="navbar-brand" height="40" />
                 <span class="ms-3 fw-bold">
                     {{ config('app.name') }}
                 </span>
@@ -57,6 +56,26 @@
                         <p>Rekapitulasi Aduan</p>
                     </a>
                 </li>
+                <li class="nav-section">
+                    <span class="sidebar-mini-icon">
+                        <i class="fa fa-ellipsis-h"></i>
+                    </span>
+                    <h4 class="text-section">Masyarakat</h4>
+                </li>
+                <li @class(['nav-item', 'active' => is_active('masyarakat.index')])>
+                    <a href="{{ route('masyarakat.index') }}">
+                        <i class="fas fa-users"></i>
+                        <p>Masyarakat</p>
+                    </a>
+                </li>
+                @can(['klasifikasi view', 'users view', 'roles view'])
+                    <li class="nav-section">
+                        <span class="sidebar-mini-icon">
+                            <i class="fa fa-ellipsis-h"></i>
+                        </span>
+                        <h4 class="text-section">Master Data</h4>
+                    </li>
+                @endcan
                 @can(['klasifikasi view', 'users view', 'roles view'])
                     <li class="nav-section">
                         <span class="sidebar-mini-icon">
@@ -107,11 +126,11 @@
 </div>
 
 {{-- @push('scripts')
-    <script>
-        const $navItems = $(document).find('.nav-item');
-        console.log($navItems);
-        $navItems.find('a').each(function() {
-            const href = $(this).attr('href')
-        });
-    </script>
+<script>
+    const $navItems = $(document).find('.nav-item');
+    console.log($navItems);
+    $navItems.find('a').each(function () {
+        const href = $(this).attr('href')
+    });
+</script>
 @endpush --}}

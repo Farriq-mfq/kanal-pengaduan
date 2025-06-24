@@ -22,4 +22,14 @@ class FrontController extends Controller
         $kategori = Kategori::all();
         return view('front.panduan_kategori', compact('kategori'));
     }
+
+    public function profile()
+    {
+        return view('front.profile');
+    }
+
+    public function forgot_password()
+    {
+        return view('front.forgot_password');
+    }
 }

@@ -8,4 +8,6 @@ Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'store'])->name('login.store')->middleware('guest');
 
     Route::delete('/logout', [AuthController::class, 'destroy'])->name('logout')->middleware('auth');
+    Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
+    Route::patch('/profile', [AuthController::class, 'update_profile'])->name('profile.update');
 });

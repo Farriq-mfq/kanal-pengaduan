@@ -69,4 +69,29 @@ class AuthController extends Controller
 
         return redirect()->route('login');
     }
+
+    public function profile()
+    {
+        $breadcrumbs = [
+            [
+                'link' => route("dashboard"),
+                'name' => "Dashboard",
+            ]
+        ];
+        return view('pages.auth.profile', compact('breadcrumbs'));
+    }
+
+    public function update_profile(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $user = auth()->user();
+        $user->update([
+            'name' => $request->name,
+            'jabatan' => $request->jabatan,
+        ]);
+        return redirect()->route('profile')->with('success', 'Profile berhasil diupdate');
+    }
 }

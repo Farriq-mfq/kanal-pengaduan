@@ -1,5 +1,8 @@
 <x-defual<x-default-layout title="Detail Aduan" :breadcrumbs="$breadcrumbs">
     <div class="card">
+        <div class="card-header">
+            <a class="btn btn-primary" href="{{ route('aduan.detail.print', ['id' => $aduan->id]) }}">Cetak Aduan</a>
+        </div>
         <div class="card-body">
             <div class="row gap-5">
                 <div class="col-12">
@@ -8,6 +11,9 @@
                             <h5 class="fs-4 fw-bold">
 
                                 Uraian Aduan</h5>
+                            @if ($aduan->foto != null)
+                                <img src="{{ asset('storage/' . $aduan->foto) }}" class="img-fluid mb-4" alt="lampoiran">
+                            @endif
                             <p>
                                 {{ $aduan->uraian_pengaduan }}
                             </p>

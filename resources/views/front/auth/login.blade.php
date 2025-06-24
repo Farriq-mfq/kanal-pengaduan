@@ -15,6 +15,11 @@
                                     {{ session('error') }}
                                 </div>
                             @endsession
+                            @session('success')
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endsession
                             <form action="{{ route('front.login.store') }}" method="POST">
                                 @csrf
                                 <div class="mb-3">
@@ -45,6 +50,11 @@
                                 <p class="text-center">
                                     Belum punya akun ?
                                     <a href="{{ route('front.register') }}">Daftar disini</a>
+                                </p>
+                                <p class="text-center">
+                                    <a href="{{ route('front.auth.forgot_password') }}">
+                                        Lupa Password
+                                    </a>
                                 </p>
                             </form>
                         </div>

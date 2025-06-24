@@ -16,8 +16,8 @@
  <!-- tracking bagian admin di perbaiki -->✅
  <!-- detail aduan tambah history revisi (admin) -->✅
  <!-- rekap laporan  tanggal awal dan akhir -->  ✅
- <!-- reset password penggunaa -->
- <!-- profile -->
+ <!-- reset password penggunaa -->✅
+ <!-- profile -->✅
  
 
 
@@ -36,7 +36,7 @@
 7. tampilan Daftar aduan di ukuran status ( proses, tolak, selesai) jangan besar dengan ukuran font field tabel di samakan✅
 8. Di dashboard Grafik kasih keterangan jumlah arah atas dan agar bisa pertahun ✅
 9. Font panduan kategori kasih keterangan misal bidang pencatatan penduduk berikan dibawahnya kalimatnya ✅
-10. upload photo
-11. detail
+11. detail cetak ✅
+10. upload photo✅
 
 -->

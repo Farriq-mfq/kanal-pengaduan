@@ -39,7 +39,8 @@ class Aduan extends Model
         'is_view',
         'status_tindak_lanjut_kepala_bidang',
         'kategori_id',
-        'tanggal_selesai'
+        'tanggal_selesai',
+        'foto'
     ];
 
 
@@ -61,5 +62,9 @@ class Aduan extends Model
     public function masyarakat()
     {
         return $this->belongsTo(Masyarakat::class, 'masyarakat_id');
+    }
+    public function kategori()
+    {
+        return $this->belongsTo(Kategori::class, 'kategori_id');
     }
 }

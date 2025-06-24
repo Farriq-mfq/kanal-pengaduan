@@ -35,9 +35,13 @@ class FrontAduanController extends Controller
         $validator = Validator::make($request->all(), [
             'kategori' => 'required',
             'aduan' => 'required',
+            'lampiran' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
         ], [
             'kategori.required' => 'Kategori wajib diisi',
             'aduan.required' => 'Uraian wajib diisi',
+            'lampiran.image' => 'Lampiran harus berupa gambar',
+            'lampiran.mimes' => 'Lampiran harus berupa gambar',
+            'lampiran.max' => 'Lampiran maksimal 2MB',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -56,13 +60,15 @@ class FrontAduanController extends Controller
                 ], 422);
             }
 
+            $foto = $request->file('lampiran');
 
             $aduan = Aduan::create([
                 'kategori_id' => $kategori->id,
                 'uraian_pengaduan' => $request->aduan,
                 'nomer_aduan' => uniqid("ADUAN-"),
                 'tanggal_pengaduan' => Carbon::now(),
-                'masyarakat_id' => auth()->guard('masyarakat')->user()->id
+                'masyarakat_id' => auth()->guard('masyarakat')->user()->id,
+                'foto' => $foto ? $foto->store('aduan', 'public') : null
             ]);
 
 

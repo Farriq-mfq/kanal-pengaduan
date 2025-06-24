@@ -42,9 +42,9 @@ class AduanDataTable extends DataTable
             ->editColumn('verifikasi_kepala_dinas', function (Aduan $aduan) {
                 return view('pages.aduan.columns._verifikasi_kepala_dinas', compact('aduan'));
             })
-            ->addColumn('nama_pelapor', function (Aduan $aduan) {
-                return view('pages.aduan.columns._nama_pelapor', compact('aduan'));
-            })
+            // ->addColumn('nama_pelapor', function (Aduan $aduan) {
+            //     return view('pages.aduan.columns._nama_pelapor', compact('aduan'));
+            // })
             ->editColumn('status_tindak_lanjut_kepala_bidang', function (Aduan $aduan) {
                 return view('pages.aduan.columns._status_verifikasi_kepala_bidang', compact('aduan'));
             })
@@ -64,26 +64,31 @@ class AduanDataTable extends DataTable
                 return $model
                     ->where('kepala_bidang_id', auth()->user()->id)
                     ->orderBy('id', 'desc')
+                    ->with('masyarakat')
                     ->newQuery();
             } else if ($role == 'kepala dinas') {
                 return $model
                     ->where('kepala_dinas_id', auth()->user()->id)
                     ->orderBy('id', 'desc')
+                    ->with('masyarakat')
                     ->newQuery();
             } else if ($role === 'tim penanganan') {
                 return $model
                     ->whereNot('status_aduan', "menunggu")
                     ->where('kategori_id', auth()->user()->kategori_id)
                     ->orderBy('id', 'desc')
+                    ->with('masyarakat')
                     ->newQuery();
             } else {
                 return $model
                     ->orderBy('id', 'desc')
+                    ->with('masyarakat')
                     ->newQuery();
             }
         } else {
             return $model
                 ->orderBy('id', 'desc')
+                ->with('masyarakat')
                 ->newQuery();
         }
 
@@ -126,7 +131,7 @@ class AduanDataTable extends DataTable
                         ->width(30)
                         ->addClass('text-center'),
                     Column::make('tanggal_pengaduan')->title('Tanggal Pengaduan')->width(100),
-                    Column::make('nama_pelapor')->title('Nama Pelapor')->width(100),
+                    Column::make('masyarakat.name')->title('Nama Pelapor')->width(100),
                     Column::make('nomer_aduan')->title('Nomor Aduan')->width(100),
                     Column::make('uraian_pengaduan')->title('Uraian Aduan'),
                     Column::make('status_tindak_lanjut_kepala_bidang')->title('Status Verifikasi Kepala Bidang'),
@@ -146,7 +151,7 @@ class AduanDataTable extends DataTable
                         ->width(30)
                         ->addClass('text-center'),
                     Column::make('tanggal_pengaduan')->title('Tanggal Pengaduan')->width(100),
-                    Column::make('nama_pelapor')->title('Nama Pelapor')->width(100),
+                    Column::make('masyarakat.name')->title('Nama Pelapor')->width(100),
                     Column::make('nomer_aduan')->title('Nomor Aduan')->width(100),
                     Column::make('uraian_pengaduan')->title('Uraian Aduan'),
                     Column::make('status_tindak_lanjut_kepala_bidang')->title('Status Verifikasi Kepala Bidang'),
@@ -166,7 +171,7 @@ class AduanDataTable extends DataTable
                         ->width(30)
                         ->addClass('text-center'),
                     Column::make('tanggal_pengaduan')->title('Tanggal Pengaduan')->width(100),
-                    Column::make('nama_pelapor')->title('Nama Pelapor')->width(100),
+                    Column::make('masyarakat.name')->title('Nama Pelapor')->width(100),
                     Column::make('nomer_aduan')->title('Nomor Aduan')->width(100),
                     Column::make('uraian_pengaduan')->title('Uraian Aduan'),
                     Column::make('status_tindak_lanjut_kepala_bidang')->title('Status Verifikasi Kepala Bidang'),
@@ -187,7 +192,7 @@ class AduanDataTable extends DataTable
                     ->width(30)
                     ->addClass('text-center'),
                 Column::make('tanggal_pengaduan')->title('Tanggal Pengaduan')->width(100),
-                Column::make('nama_pelapor')->title('Nama Pelapor')->width(100),
+                Column::make('masyarakat.name')->title('Nama Pelapor')->width(100),
                 Column::make('nomer_aduan')->title('Nomor Aduan')->width(100),
                 Column::make('uraian_pengaduan')->title('Uraian Aduan'),
                 Column::computed('action')

@@ -54,6 +54,14 @@
     </table>
     <br>
     <br>
+    <h2 style="margin: 20px;text-transform: uppercase;text-decoration:underline">
+        Uraian Pengaduan
+    </h2>
+    <p style="margin: 20px">
+        {{ $aduan->uraian_pengaduan }}
+    </p>
+    <br>
+    <br>
     @if ($aduan->kategori_id)
         <h2 style="margin: 20px;text-transform: uppercase;text-decoration:underline">
             Unit Pelayanan Yang Menangani Pengaduan

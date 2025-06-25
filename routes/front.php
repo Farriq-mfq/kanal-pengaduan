@@ -7,7 +7,7 @@ use App\Http\Controllers\FrontController;
 Route::get('/', [FrontController::class, 'index'])->name('home');
 Route::get('/about', [FrontController::class, 'about'])->name('about');
 Route::get('/panduan-kategori', [FrontController::class, 'panduan_kategori'])->name('panduan.kategori');
-Route::get('/profile', [FrontController::class, 'profile'])->name('profile');
+Route::get('/profile', [FrontController::class, 'profile'])->name('front.profile');
 Route::patch('/profile/update', [FrontAuthController::class, 'update_profile'])->name('front.auth.update_profile')->middleware('auth_masyarakat');
 
 

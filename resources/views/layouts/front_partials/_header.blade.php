@@ -26,7 +26,7 @@
                             <li><a href="{{ route(name: 'front.aduan') }}" class="{{ is_active('front.aduan') ? 'active' : '' }}">Aduan
                                     Saya</a></li>
                             <li>
-                                <a href="{{ route('profile') }}" class="{{ is_active('front.profile') ? 'active' : '' }}">
+                                <a href="{{ route('front.profile') }}" class="{{ is_active('front.profile') ? 'active' : '' }}">
                                     Profile
                                 </a>
                             </li>

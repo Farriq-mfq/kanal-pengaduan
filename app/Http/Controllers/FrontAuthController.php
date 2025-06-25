@@ -208,6 +208,6 @@ class FrontAuthController extends Controller
             'address' => $request->alamat,
             'phone' => $request->phone
         ]);
-        return redirect()->route('front.auth.profile')->with('success', 'Profile berhasil diupdate');
+        return redirect()->route('front.profile')->with('success', 'Profile berhasil diupdate');
     }
 }

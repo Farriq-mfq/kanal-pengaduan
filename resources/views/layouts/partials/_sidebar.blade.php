@@ -76,14 +76,6 @@
                         <h4 class="text-section">Master Data</h4>
                     </li>
                 @endcan
-                @can(['klasifikasi view', 'users view', 'roles view'])
-                    <li class="nav-section">
-                        <span class="sidebar-mini-icon">
-                            <i class="fa fa-ellipsis-h"></i>
-                        </span>
-                        <h4 class="text-section">Master Data</h4>
-                    </li>
-                @endcan
                 @can('klasifikasi view')
                     <li @class(['nav-item', 'active' => is_active('klasifikasi.index')])>
                         <a href="{{ route('klasifikasi.index') }}">

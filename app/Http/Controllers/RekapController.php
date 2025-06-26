@@ -33,6 +33,10 @@ class RekapController extends Controller
             'start_month' => 'required',
             'end_month' => 'required|after_or_equal:start_month',
             'type' => 'required|in:download,cetak'
+        ],[
+            'start_month.required' => 'Tanggal awal harus diisi',
+            'end_month.required' => 'Tanggal akhir harus diisi',
+            'end_month.after_or_equal' => 'Tanggal akhir harus lebih besar atau sama dengan tanggal awal',
         ]);
 
         if ($validator->fails()) {

@@ -1,4 +1,4 @@
-<x-defual<x-default-layout title="Detail Aduan" :breadcrumbs="$breadcrumbs">
+<x-default-layout title="Detail Aduan" :breadcrumbs="$breadcrumbs">
     <div class="card">
         <div class="card-header">
             <a class="btn btn-primary" href="{{ route('aduan.detail.print', ['id' => $aduan->id]) }}">Cetak Aduan</a>
@@ -55,48 +55,69 @@
                                         @endif
                                     </td>
                                 </tr>
-                                @if ($aduan->text_direct_pengaduan)
-                                    <tr>
-                                        <th>Jawaban Langsung</th>
-                                        <td>
-                                            {{ $aduan->text_direct_pengaduan }}
-                                        </td>
-                                    </tr>
-                                @endif
-                            </table>
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <h5 class="fs-4 fw-bold">
-                                Tindak Lanjut Aduan
-                            </h5>
-                            <table class="table table-bordered">
+                                <tr>
+                                    <th>Tanggal Penerimaan</th>
+                                    <td>
+                                        {{ $aduan->tanggal_acc ?? '-' }}
+                                    </td>
+                                </tr>
                                 <tr>
                                     <th>Alasan Penolakan</th>
                                     <td>
                                         {{ $aduan->alasan_penolakan ?? '-' }}
                                     </td>
                                 </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <h5 class="fs-4 fw-bold">
+                                Klasifikasi dan Telaah Aduan
+                            </h5>
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>
+                                        Unit Kerja
+                                    </th>
+                                    <td>
+                                        Tim Penanganan {{ $aduan->kategori->name }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Nama
+                                    </th>
+                                    <td>
+                                        {{ $aduan->kategori->user->name }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Hasil Telaah
+                                    </th>
+                                    <td>
+                                        {{ $aduan->telaah_aduan ?? '-' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Klasifikasi Aduan
+                                    </th>
+                                    <td>
+                                        {{ $aduan->klasifikasi ?? '-' }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        Kecepatan Tindak Lanjut
+                                    </th>
+                                    <td>
+                                        {{ $aduan->kecepatan_tindak_lanjut ?? '-' }}
+                                    </td>
+                                </tr>
                                 <tr>
                                     <th>Tindak Lanjut</th>
                                     <td>
-                                        {{ $aduan->tindak_lanjut ?? '-' }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Kecepatan Tindak Lanjut</th>
-                                    <td>
-                                        @if ($aduan->kecepatan_tindak_lanjut)
-                                            <span class="badge bg-primary">{{ $aduan->kecepatan_tindak_lanjut }}</span>
-                                        @else
-                                            -
-                                        @endif
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Klasifikasi</th>
-                                    <td>
-                                        {{ $aduan->klasifikasi ?? '-' }}
+                                        {{ $aduan->tindak_lanjut ? $aduan->tindak_lanjut : $aduan->text_direct_pengaduan ?? '-'}}
                                     </td>
                                 </tr>
                             </table>
@@ -181,19 +202,6 @@
                                 @endif
                             </table>
                         </div>
-                        <div class="col-md-6 col-12">
-                            <h5 class="fs-4 fw-bold">
-                                Telaah Aduan
-                            </h5>
-                            <table class="table table-bordered">
-                                <tr>
-                                    <th>Hasil Telaah</th>
-                                    <td>
-                                        {{ $aduan->telaah_aduan ?? '-' }}
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
                     </div>
                     @if (count($aduan->trackings) > 0)
                         <div class="col-12">
@@ -259,4 +267,4 @@
             })
         </script>
     @endpush
-    </x-default-layout>
+</x-default-layout>

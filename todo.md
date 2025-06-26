@@ -47,7 +47,7 @@ benahi :
 
 tambahan : 
 - ng daftar aduan tambahi tabel kategori aduan✅
-- ng tampilan detail sg tk kirimi riq 
+- ng tampilan detail sg tk kirimi riq  ✅
 
 
 

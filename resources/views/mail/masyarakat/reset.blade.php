@@ -9,7 +9,6 @@
     <div>
         <h1>Reset Password {{ config('app.name') }} </h1>
         <p>
-            Terima kasih telah mendaftar di {{ config('app.name') }}.<br>
             Silahkan klik link di bawah ini untuk reset password akun anda.
         </p>
         <a href="{{ route('front.auth.reset_password', $token) }}">Reset Password</a>

@@ -22,7 +22,7 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "nik" => ['required', 'string', 'max:255'],
+            "nik" => ['required', 'string', 'max:255', 'min:16'],
             "name" => ['required', 'string', 'max:255'],
             "email" => ['required', 'email', 'max:255', 'unique:masyarakats,email'],
             "password" => ['required', 'string', 'min:8', 'confirmed'],
@@ -42,6 +42,7 @@ class RegisterRequest extends FormRequest
             'password_confirmation.required' => 'Konfirmasi Password wajib diisi',
             'password_confirmation.min' => 'Konfirmasi Password minimal 8 karakter',
             'email.unique' => 'Email sudah terdaftar',
+            'nik.min' => 'NIK harus 16 digit'
         ];
     }
 }

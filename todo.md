@@ -39,4 +39,22 @@
 11. detail cetak ✅
 10. upload photo✅
 
+benahi : 
+- validasi 16 NIK ✅
+- tanggal penerimaan ng detail cetak rung wenehi kro typo kata identias✅
+- ng tampilan admin, masyarakat seh teks e klasifikasi kro rung ono fitur geser samping n atas
+- tampilan beranda tentang kanal pengaduan jawaban pertanyaan sekalian wenehi✅
+
+tambahan : 
+- ng daftar aduan tambahi tabel kategori aduan✅
+- ng tampilan detail sg tk kirimi riq 
+
+
+
+hapus :
+- ng detail ( tersampaikan hapus wae )  ✅
+ bug :
+- search ng users seh eror✅
 -->
+
+

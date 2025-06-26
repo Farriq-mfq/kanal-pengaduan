@@ -29,8 +29,8 @@ class UserDataTable extends DataTable
             ->addColumn('role', function (User $user) {
                 return $user->role ?? "-";
             })
-            ->editColumn('kategori', function (User $user) {
-                return $user->kateogri ? $user->kateogri->name : "-";
+            ->addColumn('kategori', function (User $user) {
+                return $user->kategori ? $user->kategori->name : "-";
             })
             ->addColumn('action', function (User $user) use ($roles) {
                 $kategori = Kategori::all();
@@ -47,7 +47,7 @@ class UserDataTable extends DataTable
      */
     public function query(User $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->with('kategori')->newQuery();
     }
 
     /**

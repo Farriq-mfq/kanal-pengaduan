@@ -110,6 +110,7 @@ class DaftarAduanController extends Controller
 
             $aduan->update([
                 'status_aduan' => 'proses',
+                'tanggal_acc' => now(),
             ]);
 
             // tracking aduan

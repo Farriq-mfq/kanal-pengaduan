@@ -1,4 +1,4 @@
-<x-default-layout title="Daftar Aduan" :breadcrumbs="$breadcrumbs">
+<x-default-layout title="Dashboard" :breadcrumbs="$breadcrumbs">
     <div class="row">
         <div class="col-sm-6 col-md-3">
             <div class="card card-stats card-round">
@@ -132,7 +132,7 @@
                                                 @elseif($item->status_aduan == 'ditolak')
                                                     <span><i class="fa fa-times text-danger me-2"></i>Ditolak</span>
                                                 @elseif($item->status_aduan == 'selesai')
-                                                    <span><i class="fa fa-check text-success me-2"></i>Seleseai</span>
+                                                    <span><i class="fa fa-check text-success me-2"></i>Selesai</span>
                                                 @endif
                                                 |
                                                 #{{ $item->nomer_aduan }} @if ($item->klasifikasi)

@@ -22,7 +22,6 @@ class MasyarakatDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'masyarakat.action')
             ->setRowId('id');
     }
 
@@ -63,11 +62,6 @@ class MasyarakatDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
             Column::make('name')->title('Nama'),
             Column::make('email')->title('Email'),
             Column::make('NIK')->title('NIK'),

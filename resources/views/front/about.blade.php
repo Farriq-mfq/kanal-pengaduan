@@ -40,9 +40,7 @@
                         <div class="faq-item faq-active">
                             <h3>Bagaimana cara saya melaporkan aduan ?</h3>
                             <div class="faq-content">
-                                <p>Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus
-                                    laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor
-                                    rhoncus dolor purus non.</p>
+                                <p>Anda hanya mengisi form laporan aduan yang tersedia dihalaman beranda depan.</p>
                             </div>
                             <i class="faq-toggle bi bi-chevron-right"></i>
                         </div><!-- End Faq item-->
@@ -50,10 +48,7 @@
                         <div class="faq-item">
                             <h3>Apakah Identitas Saya Aman Jika Mengadukan Hal Yang Sensitif ?</h3>
                             <div class="faq-content">
-                                <p>Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id
-                                    interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus
-                                    scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim.
-                                    Mauris ultrices eros in cursus turpis massa tincidunt dui.</p>
+                                <p>Identias anda aman karena kami menggunakan login ketika melakukan pengaduan.</p>
                             </div>
                             <i class="faq-toggle bi bi-chevron-right"></i>
                         </div><!-- End Faq item-->
@@ -61,10 +56,9 @@
                         <div class="faq-item">
                             <h3>Bagaimana Saya Melihat Progress Perkembangan Aduan Saya ?</h3>
                             <div class="faq-content">
-                                <p>Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci.
-                                    Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl
-                                    suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis
-                                    convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis
+                                <p>
+                                    Anda dapat melihat progress perkembangan aduan anda di halaman laporan aduan dan
+                                    melakukan tracking aduan berdasarkan dari nomer aduan
                                 </p>
                             </div>
                             <i class="faq-toggle bi bi-chevron-right"></i>

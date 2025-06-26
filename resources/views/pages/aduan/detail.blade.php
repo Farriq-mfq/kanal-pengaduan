@@ -194,45 +194,6 @@
                                 </tr>
                             </table>
                         </div>
-                        <div class="col-md-6 col-12">
-                            <h5 class="fs-4 fw-bold">
-                                Tersampaikan
-                            </h5>
-                            <table class="table table-bordered">
-                                <tr>
-                                    <th>Status Disampaikan</th>
-                                    <td>
-                                        @if ($aduan->status_disampaikan)
-                                            <span><i class="fa fa-check text-success me-2"></i>Tersampaikan</span>
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Tanggal Disampaikan</th>
-                                    <td>
-                                        {{ $aduan->tanggal_disampaikan ?? '-' }}
-                                    </td>
-                                </tr>
-                                <!-- <tr>
-                                    <th>Tanggapan Masyarakat</th>
-                                    <td>
-                                        {{ $aduan->tanggapan ?? '-' }}
-                                    </td>
-                                </tr> -->
-                                <!-- <tr>
-                                    <th>Dilihat</th>
-                                    <td>
-                                        @if ($aduan->is_view)
-                                            <span><i class="fa fa-check text-success me-2"></i>Dilihat</span>
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                </tr> -->
-                            </table>
-                        </div>
                     </div>
                     @if (count($aduan->trackings) > 0)
                         <div class="col-12">

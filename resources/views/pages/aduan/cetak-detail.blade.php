@@ -22,7 +22,7 @@
     </h1>
     <br>
     <br>
-    <h2 style="margin: 20px;text-transform: uppercase;text-decoration:underline">Identias Pelapor</h2>
+    <h2 style="margin: 20px;text-transform: uppercase;text-decoration:underline">Identitas Pelapor</h2>
     <table style="width: fit;margin: 20px;font-weight:bold;border-collapse: collapse;">
         <tr style="font-size:16px;">
             <td style="padding:7px">Nama</td>
@@ -49,6 +49,15 @@
             </td>
             <td>
                 {{ $aduan->tanggal_pengaduan }}
+            </td>
+        </tr>
+        <tr style="font-size:16px;">
+            <td style="padding:7px">Tanggal Penerimaan</td>
+            <td>
+                :&nbsp;
+            </td>
+            <td>
+                {{ $aduan->tanggal_acc ?? '-' }}
             </td>
         </tr>
     </table>

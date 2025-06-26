@@ -20,10 +20,6 @@ class FrontAuthController extends Controller
         return view('front.auth.login');
     }
 
-    public function register()
-    {
-        return view('front.auth.register');
-    }
 
     public function store(LoginRequest $request)
     {
@@ -46,6 +42,10 @@ class FrontAuthController extends Controller
         }
     }
 
+    public function register()
+    {
+        return view('front.auth.register');
+    }
     public function register_store(RegisterRequest $request)
     {
         DB::beginTransaction();

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Tracking;
 use App\Observers\TrackingObserver;
+use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -24,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         setlocale(LC_TIME, 'id_ID');
-        \Carbon\Carbon::setLocale('id');
+        Carbon::setLocale('id');
 
         Gate::before(function ($user, $ability) {
             return $user->hasRole('superAdmin') ? true : null;

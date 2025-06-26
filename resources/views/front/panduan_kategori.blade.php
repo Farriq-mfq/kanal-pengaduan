@@ -40,7 +40,7 @@
                     <div class="faq-container">
 
                         @foreach ($kategori as $kt)
-                            <div class="faq-item faq-active">
+                            <div class="faq-item">
                                 <h3>
                                     {{ $loop->iteration }}. {{ $kt->name }}
                                 </h3>

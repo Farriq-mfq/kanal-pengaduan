@@ -9,12 +9,14 @@
                     @can('kategori create')
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#kategoriAddModal">
-                            <i class="fas fa-plus""></i> Tambah Kategori
-                                                            </button>
+                            <i class="fas fa-plus"></i> Tambah Kategori
+                        </button>
                     @endcan
                 </div>
                 <div class=" col-12">
-                            {{ $dataTable->table() }}
+                    <div class="table-responsive">
+                        {{ $dataTable->table() }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -79,7 +81,7 @@
                             })
                             $("#kategoriEditModal-{{ old('_id') }}").modal("show");
                         @endif
-                                                        })
+                                                            })
                 })
             </script>
         @endpush

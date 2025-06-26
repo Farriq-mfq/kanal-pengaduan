@@ -5,11 +5,13 @@
             <div class="row gap-5">
                 <div class="col-12 justify-content-end d-flex">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#roleAddModal">
-                        <i class="fas fa-plus""></i> Tambah Role
+                        <i class="fas fa-plus"></i> Tambah Role
                     </button>
                 </div>
                 <div class="col-12">
-                    {{ $dataTable->table() }}
+                    <div class="table-responsive">
+                        {{ $dataTable->table() }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -29,8 +31,7 @@
                             <input type="hidden" name="_action" value="create">
                             <div class="form-group @error('name')
                                 has-error has-feedback
-                            @enderror"
-                                style="text-align: left">
+                            @enderror" style="text-align: left">
                                 <label for="name">Nama</label>
                                 <input type="text" class="form-control" id="name" name="name"
                                     value="{{ old('name') }}" />
@@ -40,8 +41,7 @@
                             </div>
                             <div class="form-group d-flex flex-wrap border m-2 @error('permissions')
                                 has-error has-feedback
-                            @enderror"
-                                style="text-align: left">
+                            @enderror" style="text-align: left">
                                 @foreach ($permissions as $permission)
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="{{ $permission->id }}"
@@ -70,12 +70,12 @@
             {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
 
             <script>
-                $(document).ready(function() {
+                $(document).ready(function () {
                     @if ($errors->any() && old('_action') == 'create')
                         $('#roleAddModal').modal("show");
                     @endif
 
-                    $('#role-table').DataTable().on('draw.dt', function() {
+                    $('#role-table').DataTable().on('draw.dt', function () {
                         @if ($errors->any() && old('_action') == 'update')
                             swal({
                                 title: "Error",
@@ -87,7 +87,7 @@
 
                             $("#roleEditModal-{{ old('_id') }}").modal("show");
                         @endif
-                    })
+                        })
                 })
             </script>
         @endpush

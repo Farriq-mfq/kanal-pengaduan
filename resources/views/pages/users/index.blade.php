@@ -5,11 +5,13 @@
             <div class="row gap-5">
                 <div class="col-12 justify-content-end d-flex">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userAddModal">
-                        <i class="fas fa-plus""></i> Tambah User
+                        <i class="fas fa-plus"></i> Tambah User
                     </button>
                 </div>
                 <div class="col-12">
-                    {{ $dataTable->table() }}
+                     <div class="table-responsive">
+                         {{ $dataTable->table() }}
+                     </div>
                 </div>
             </div>
         </div>

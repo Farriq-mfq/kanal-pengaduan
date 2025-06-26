@@ -7,12 +7,14 @@
                     @can('klasifikasi create')
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#klasifikasiAddModal">
-                            <i class="fas fa-plus""></i> Tambah Klasifikasi
+                            <i class="fas fa-plus"></i> Tambah Klasifikasi
                         </button>
                     @endcan
                 </div>
                 <div class="col-12">
-                    {{ $dataTable->table() }}
+                     <div class="table-responsive">
+                         {{ $dataTable->table() }}
+                     </div>
                 </div>
             </div>
         </div>

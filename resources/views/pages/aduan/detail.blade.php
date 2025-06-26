@@ -1,7 +1,7 @@
 <x-default-layout title="Detail Aduan" :breadcrumbs="$breadcrumbs">
     <div class="card">
         <div class="card-header">
-            <a class="btn btn-primary" href="{{ route('aduan.detail.print', ['id' => $aduan->id]) }}">Cetak Aduan</a>
+            <a class="btn btn-primary" href="{{ route('aduan.detail.print', ['id' => $aduan->id]) }}"><i class="fa fa-print me-2"></i>Cetak Aduan</a>
         </div>
         <div class="card-body">
             <div class="row gap-5">

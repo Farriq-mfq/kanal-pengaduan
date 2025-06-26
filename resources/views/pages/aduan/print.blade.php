@@ -8,7 +8,7 @@
         <tr>
             <th style="border: 1px solid black;">No.</th>
             <th style="border: 1px solid black;">Nama Pengadu</th>
-            <th style="border: 1px solid black;">Isi Pengaduan</th>
+            <th style="border: 1px solid black;">Uraian Pengaduan</th>
             <th style="border: 1px solid black;">Tanggal Pengaduan</th>
             <th style="border: 1px solid black;">Tindak Lanjut Pengaduan</th>
             <th style="border: 1px solid black;">Tanggal Penyelesaian Pengaduan</th>

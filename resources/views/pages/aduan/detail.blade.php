@@ -51,7 +51,7 @@
                                         @elseif($aduan->status_aduan == 'ditolak')
                                             <span><i class="fa fa-times text-danger me-2"></i>Ditolak</span>
                                         @elseif($aduan->status_aduan == 'selesai')
-                                            <span><i class="fa fa-check text-success me-2"></i>Seleseai</span>
+                                            <span><i class="fa fa-check text-success me-2"></i>Selesai</span>
                                         @endif
                                     </td>
                                 </tr>

@@ -136,7 +136,7 @@ class AduanDataTable extends DataTable
                         ->width(30)
                         ->addClass('text-center'),
                     Column::make('tanggal_pengaduan')->title('Tanggal Pengaduan')->width(100),
-                    Column::make('masyarakat.name')->title('Nama Pelapor')->width(100),
+                    Column::make('masyarakat.name')->title('Nama Pengadu')->width(100),
                     Column::make('nomer_aduan')->title('Nomor Aduan')->width(100),
                     Column::make('uraian_pengaduan')->title('Uraian Aduan'),
                     Column::make('kategori.name')->title('Kategori')->width(100),
@@ -157,7 +157,7 @@ class AduanDataTable extends DataTable
                         ->width(30)
                         ->addClass('text-center'),
                     Column::make('tanggal_pengaduan')->title('Tanggal Pengaduan')->width(100),
-                    Column::make('masyarakat.name')->title('Nama Pelapor')->width(100),
+                    Column::make('masyarakat.name')->title('Nama Pengadu')->width(100),
                     Column::make('nomer_aduan')->title('Nomor Aduan')->width(100),
                     Column::make('uraian_pengaduan')->title('Uraian Aduan'),
                     Column::make('kategori.name')->title('Kategori')->width(100),
@@ -178,7 +178,7 @@ class AduanDataTable extends DataTable
                         ->width(30)
                         ->addClass('text-center'),
                     Column::make('tanggal_pengaduan')->title('Tanggal Pengaduan')->width(100),
-                    Column::make('masyarakat.name')->title('Nama Pelapor')->width(100),
+                    Column::make('masyarakat.name')->title('Nama Pengadu')->width(100),
                     Column::make('nomer_aduan')->title('Nomor Aduan')->width(100),
                     Column::make('uraian_pengaduan')->title('Uraian Aduan'),
                     Column::make('kategori.name')->title('Kategori')->width(100),
@@ -200,7 +200,7 @@ class AduanDataTable extends DataTable
                     ->width(30)
                     ->addClass('text-center'),
                 Column::make('tanggal_pengaduan')->title('Tanggal Pengaduan')->width(100),
-                Column::make('masyarakat.name')->title('Nama Pelapor')->width(100),
+                Column::make('masyarakat.name')->title('Nama Pengadu')->width(100),
                 Column::make('nomer_aduan')->title('Nomor Aduan')->width(100),
                 Column::make('kategori.name')->title('Kategori')->width(100),
                 Column::make('uraian_pengaduan')->title('Uraian Aduan'),
